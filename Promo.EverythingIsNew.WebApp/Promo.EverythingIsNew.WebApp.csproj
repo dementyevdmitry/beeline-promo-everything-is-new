@@ -246,6 +246,7 @@
     <Content Include="Views\WorkflowSample\Login.cshtml" />
     <Content Include="Views\WorkflowSample\EditForm.cshtml" />
     <Content Include="Views\WorkflowSample\Offer.cshtml" />
+    <Content Include="Views\WorkflowSample\PersonalBeeline.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

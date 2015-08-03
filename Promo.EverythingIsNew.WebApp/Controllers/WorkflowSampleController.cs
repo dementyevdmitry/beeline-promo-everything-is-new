@@ -89,6 +89,11 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return View();
         }
 
+        public ActionResult PersonalBeeline()
+        {
+            return View();
+        }
+
 
 
 
