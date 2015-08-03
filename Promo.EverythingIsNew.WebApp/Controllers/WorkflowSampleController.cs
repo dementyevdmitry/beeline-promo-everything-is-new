@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AltLanDS.AllNew.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -36,11 +37,12 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         
         public ActionResult EditForm()
         {
-            return View();
+            var model = new EntryForm();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult EditForm(string form)
+        public ActionResult EditForm(EntryForm form)
         {
             // CheckAgeRestrictions();
             // CheckRegionRestrictions();
