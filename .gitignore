@@ -238,6 +238,7 @@ PublishProfiles/
 # *.*sdf
 # *.ipch
 
-
+# F# maker artifacts
+.fake
 
 
