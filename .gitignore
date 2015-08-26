@@ -240,5 +240,5 @@ PublishProfiles/
 
 # F# maker artifacts
 .fake
-
+drop/
 

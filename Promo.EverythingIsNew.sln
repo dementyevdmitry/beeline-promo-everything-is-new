@@ -13,9 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promo.EverythingIsNew.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promo.EverythingIsNew.DAL", "Promo.EverythingIsNew.DAL\Promo.EverythingIsNew.DAL.csproj", "{E33F332B-92DA-480D-A102-CC09A1828D52}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{36E1DC8E-3552-4706-90C1-1A77E5A8FE6F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "buildtools", "build\buildtools\buildtools.csproj", "{36AFE97F-9D0B-4666-858C-BE457186CE16}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildtools", "buildtools", "{053723B8-87FB-43FB-85FD-B52B9E960E17}"
+	ProjectSection(SolutionItems) = preProject
+		buildtools\build.fsx = buildtools\build.fsx
+		buildtools\build.ps1 = buildtools\build.ps1
+		buildtools\buildtools_version.txt = buildtools\buildtools_version.txt
+		buildtools\common-targets.fsx = buildtools\common-targets.fsx
+		buildtools\localbuild.bat = buildtools\localbuild.bat
+		buildtools\localpublish.pubxml = buildtools\localpublish.pubxml
+		buildtools\Nuget.Config = buildtools\Nuget.Config
+		buildtools\Nuget.exe = buildtools\Nuget.exe
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,16 +47,11 @@ Global
 		{E33F332B-92DA-480D-A102-CC09A1828D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33F332B-92DA-480D-A102-CC09A1828D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E33F332B-92DA-480D-A102-CC09A1828D52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36AFE97F-9D0B-4666-858C-BE457186CE16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36AFE97F-9D0B-4666-858C-BE457186CE16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36AFE97F-9D0B-4666-858C-BE457186CE16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36AFE97F-9D0B-4666-858C-BE457186CE16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{35BA378E-7472-4BFD-A88C-DD5B84C6E5EA} = {8946ABD0-4CFC-485A-A5FA-E89D5A40D5C3}
-		{36AFE97F-9D0B-4666-858C-BE457186CE16} = {36E1DC8E-3552-4706-90C1-1A77E5A8FE6F}
 	EndGlobalSection
 EndGlobal

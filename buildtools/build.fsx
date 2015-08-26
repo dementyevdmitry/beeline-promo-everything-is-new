@@ -11,7 +11,7 @@ open System.IO
 
 Target "Build" (fun _ ->
     trace "-- Build ---"
-    //add your build targets here
+    buildApp "Promo.EverythingIsNew.WebApp"
 )
 
 "Start"
