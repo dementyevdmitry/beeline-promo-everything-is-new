@@ -19,10 +19,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildtools", "buildtools", 
 		buildtools\build.ps1 = buildtools\build.ps1
 		buildtools\buildtools_version.txt = buildtools\buildtools_version.txt
 		buildtools\common-targets.fsx = buildtools\common-targets.fsx
+		buildtools\commontargets.fsx = buildtools\commontargets.fsx
 		buildtools\localbuild.bat = buildtools\localbuild.bat
 		buildtools\localpublish.pubxml = buildtools\localpublish.pubxml
 		buildtools\Nuget.Config = buildtools\Nuget.Config
 		buildtools\Nuget.exe = buildtools\Nuget.exe
+		buildtools\releaseToOctopus.bat = buildtools\releaseToOctopus.bat
+		buildtools\releaseToOctopus.fsx = buildtools\releaseToOctopus.fsx
 	EndProjectSection
 EndProject
 Global
