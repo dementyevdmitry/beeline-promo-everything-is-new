@@ -54,7 +54,7 @@ Target "RestoreDeployPackages" (fun _ ->
 
 Target "Build" (fun _ ->
     trace "-- Build ---"
-    buildApp "Promo.EverythingIsNew.WebApp"
+    buildWebApp "Promo.EverythingIsNew.WebApp"
 )
 
 let buildOctoPackage project =  
