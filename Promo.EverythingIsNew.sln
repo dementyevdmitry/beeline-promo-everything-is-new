@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildtools", "buildtools", 
 		buildtools\releaseToOctopus.fsx = buildtools\releaseToOctopus.fsx
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promo.ConsoleTest", "Promo.ConsoleTest\Promo.ConsoleTest.csproj", "{885131FD-4B3A-4CD6-BC04-3A6F79E3EDD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,11 +52,16 @@ Global
 		{E33F332B-92DA-480D-A102-CC09A1828D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33F332B-92DA-480D-A102-CC09A1828D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E33F332B-92DA-480D-A102-CC09A1828D52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{885131FD-4B3A-4CD6-BC04-3A6F79E3EDD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{885131FD-4B3A-4CD6-BC04-3A6F79E3EDD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{885131FD-4B3A-4CD6-BC04-3A6F79E3EDD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{885131FD-4B3A-4CD6-BC04-3A6F79E3EDD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{35BA378E-7472-4BFD-A88C-DD5B84C6E5EA} = {8946ABD0-4CFC-485A-A5FA-E89D5A40D5C3}
+		{885131FD-4B3A-4CD6-BC04-3A6F79E3EDD4} = {8946ABD0-4CFC-485A-A5FA-E89D5A40D5C3}
 	EndGlobalSection
 EndGlobal
