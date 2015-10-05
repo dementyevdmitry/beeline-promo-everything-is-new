@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientStatusGetResultDto.cs" />
-    <Compile Include="ClientStatusGetDto.cs" />
-    <Compile Include="ClientUpdatePostResultDto.cs" />
-    <Compile Include="ClientUpdatePostDto.cs" />
+    <Compile Include="StatusResult.cs" />
+    <Compile Include="Status.cs" />
+    <Compile Include="UpdateResult.cs" />
+    <Compile Include="Update.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MessageResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
