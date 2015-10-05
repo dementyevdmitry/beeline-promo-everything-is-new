@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promo.EverythingIsNew.WebApp", "Promo.EverythingIsNew.WebApp\Promo.EverythingIsNew.WebApp.csproj", "{E5CE314C-17AA-4DF4-9AC8-9DBA2D0C43B5}"
 EndProject
@@ -15,11 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Promo.EverythingIsNew.DAL",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buildtools", "buildtools", "{053723B8-87FB-43FB-85FD-B52B9E960E17}"
 	ProjectSection(SolutionItems) = preProject
+		buildtools\build-template.fsx = buildtools\build-template.fsx
 		buildtools\build.fsx = buildtools\build.fsx
 		buildtools\build.ps1 = buildtools\build.ps1
 		buildtools\buildtools_version.txt = buildtools\buildtools_version.txt
 		buildtools\common-targets.fsx = buildtools\common-targets.fsx
 		buildtools\commontargets.fsx = buildtools\commontargets.fsx
+		buildtools\localbuild-template.bat = buildtools\localbuild-template.bat
 		buildtools\localbuild.bat = buildtools\localbuild.bat
 		buildtools\localpublish.pubxml = buildtools\localpublish.pubxml
 		buildtools\Nuget.Config = buildtools\Nuget.Config
