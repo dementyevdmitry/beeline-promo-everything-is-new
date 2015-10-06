@@ -1,0 +1,24 @@
+﻿@model Promo.EverythingIsNew.WebApp.Models.VkModel
+
+@{
+    ViewBag.Title = "VkInfo";
+}
+
+<h2>VkInfo</h2>
+
+
+@if (Model.Response != null)
+{
+    foreach (var i in Model.Response)
+    {
+        <div>
+            <p><b>ID:</b> @i.Id</p>
+            <p><b>Имя:</b> @i.FirstName</p>
+            <p><b>Фамилия:</b> @i.LastName</p>
+            <p><b>Дата рождения:</b> @i.Birthday</p>
+            <p><b>Город:</b> @i.City.Title</p>
+            <p><b>Страна:</b> @i.Country.Title</p>
+            <p><b>E-mail:</b> @i.Email</p>
+        </div>
+    }
+}
