@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -52,7 +53,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
                         var urlToGetInfo = "https://api.vk.com/method/users.get?user_id=" + accessData.UserId + "&fields=bdate,city,country,personal&v=5.37&access_token=" + accessData.AccessToken;
                         var userInfo = client.DownloadString(urlToGetInfo);
-                        userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { DateTimeFormat = "dd.M.yyyy" });
+                        userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { Culture = new CultureInfo("ru-RU") });                    
                         userData.Response.FirstOrDefault().Email = accessData.Email;
                     }
                 }

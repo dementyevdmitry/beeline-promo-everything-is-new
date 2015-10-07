@@ -21,7 +21,6 @@ namespace Promo.EverythingIsNew.WebApp.Models
         [JsonProperty("last_name")]
         public string LastName { get; set; }
         [JsonProperty("bdate")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Birthday { get; set; }
         [JsonProperty("city")]
         public Data City { get; set; }
