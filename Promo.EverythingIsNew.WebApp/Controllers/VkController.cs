@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Promo.EverythingIsNew.WebApp.Models;
 using System;
@@ -27,8 +28,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 var vkAppSecretKey = ConfigurationManager.AppSettings["VkAppSecretKey"];
                 var redirectUri = ConfigurationManager.AppSettings["VkRedirectUri"];
 
-                var query = Request.Url.Query;
-
                 var userData = new VkModel();
                 var code = Request.QueryString["code"];
 
@@ -53,7 +52,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
                         var urlToGetInfo = "https://api.vk.com/method/users.get?user_id=" + accessData.UserId + "&fields=bdate,city,country,personal&v=5.37&access_token=" + accessData.AccessToken;
                         var userInfo = client.DownloadString(urlToGetInfo);
-                        userData = JsonConvert.DeserializeObject<VkModel>(userInfo);
+                        userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { DateTimeFormat = "dd.M.yyyy" });
                         userData.Response.FirstOrDefault().Email = accessData.Email;
                     }
                 }
