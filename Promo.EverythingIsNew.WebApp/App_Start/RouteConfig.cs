@@ -16,19 +16,32 @@ namespace Promo.EverythingIsNew.WebApp
             routes.MapRoute(
                 name: "choose",
                 url: "choose",
-                defaults: new { controller = "home", action = "choose"}
+                defaults: new { controller = "home", action = "Choose"}
             );
 
             routes.MapRoute(
                 name: "index",
                 url: "index",
-                defaults: new { controller = "home", action = "index" }
+                defaults: new { controller = "home", action = "Index" }
             );
 
             routes.MapRoute(
                 name: "offer",
                 url: "offer",
-                defaults: new { controller = "home", action = "offer" }
+                defaults: new { controller = "home", action = "Offer" }
+            );
+
+            routes.MapRoute(
+                name: "vk",
+                url: "vk",
+                defaults: new { controller = "home", action = "Vk" }
+            );
+
+
+            routes.MapRoute(
+                name: "vkResult",
+                url: "vkResult",
+                defaults: new { controller = "home", action = "VkResult" }
             );
 
             routes.MapRoute(
