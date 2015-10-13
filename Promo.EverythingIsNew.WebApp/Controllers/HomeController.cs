@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Promo.EverythingIsNew.WebApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -21,18 +25,20 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             var vkAppId = ConfigurationManager.AppSettings["VkAppId"];
             var vkAppSecretKey = ConfigurationManager.AppSettings["VkAppSecretKey"];
-            var redirectUri = ConfigurationManager.AppSettings["Hostname"] + "/VkResult";
+            var hostname = ConfigurationManager.AppSettings["Hostname"];
+            var redirectUri = hostname + hostname.Substring(hostname.Length - 1, 1) == "/" ? "VkResult" : "/VkResult";
 
             var urlToGetCode = "https://oauth.vk.com/authorize?client_id=" + vkAppId + "&display=page&redirect_uri=" + redirectUri + "&scope=email&response_type=code&v=5.37";
 
 
             return Redirect(urlToGetCode);
         }
-        public ActionResult VkResult()
+        public ActionResult VkResult(string code)
         {
             var vkAppId = ConfigurationManager.AppSettings["VkAppId"];
             var vkAppSecretKey = ConfigurationManager.AppSettings["VkAppSecretKey"];
             var redirectUri = ConfigurationManager.AppSettings["Hostname"] + "/VkResult";
+            var userData = new VkModel();
 
             using (var client = new WebClient())
             {
@@ -49,8 +55,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { Culture = new CultureInfo("ru-RU") });
                 userData.Response.FirstOrDefault().Email = accessData.Email;
             }
-
-            return View();
+            return Content(JsonConvert.SerializeObject(userData));
         }
 
         
