@@ -9,11 +9,18 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult Choose()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
-            var vkAppId = ConfigurationManager.AppSettings["VkAppId"];
-            var vkAppSecretKey = ConfigurationManager.AppSettings["VkAppSecretKey"];
+            return View();
+        }
 
+        public ActionResult Offer()
+        {
             return View();
         }
 
