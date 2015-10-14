@@ -23,13 +23,16 @@ namespace Promo.EverythingIsNew.WebApp.Models
         [JsonProperty("bdate")]
         public DateTime Birthday { get; set; }
         [JsonProperty("city")]
-        public Data City { get; set; }
-        [JsonProperty("country")]
-        public Data Country { get; set; }
+        public City City { get; set; }
         public string Email { get; set; }
+        [JsonProperty("university_name")]
+        public string Academy { get; set; }
+        [JsonProperty("mobile_phone")]
+        public string Phone { get; set; }
+        
     }
 
-    public class Data
+    public class City
     {
         [JsonProperty("id")]
         public int Id { get; set; }
