@@ -29,7 +29,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             string vkAppSecretKey;
             string redirectUri;
             LoadParams(out vkAppId, out vkAppSecretKey, out redirectUri);
-            var urlToGetCode = GetCode(vkAppId, redirectUri);
+            var urlToGetCode = GetCodeUrl(vkAppId, redirectUri);
             return Redirect(urlToGetCode);
         }
 
@@ -78,7 +78,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 client.Encoding = Encoding.UTF8;
                 client.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
 
-                var urlToGetAccessData = GetToken(code, vkAppId, vkAppSecretKey, redirectUri);
+                var urlToGetAccessData = GetTokenUrl(code, vkAppId, vkAppSecretKey, redirectUri);
                 var accessInfo = client.DownloadString(urlToGetAccessData);
                 accessData = JsonConvert.DeserializeObject<AccessData>(accessInfo);
 
@@ -116,13 +116,13 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return urlToGetInfo;
         }
 
-        private static string GetToken(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
+        private static string GetTokenUrl(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
         {
             var urlToGetAccessData = "https://oauth.vk.com/access_token?client_id=" + vkAppId + "&client_secret=" + vkAppSecretKey + "&redirect_uri=" + redirectUri + "&code=" + code + "&x=" + DateTime.Now.Ticks;
             return urlToGetAccessData;
         }
 
-        private static string GetCode(string vkAppId, string redirectUri)
+        private static string GetCodeUrl(string vkAppId, string redirectUri)
         {
             var urlToGetCode = "https://oauth.vk.com/authorize?client_id=" + vkAppId + "&display=page&redirect_uri=" + redirectUri + "&scope=email&response_type=code&v=5.37" + "&x=" + DateTime.Now.Ticks;
             return urlToGetCode;
