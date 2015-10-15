@@ -3,6 +3,8 @@
 
 # PrivateSettings must be ignored for security reasons
 PrivateSettings.config
+PrivateSettings2.config
+SystemWeb.config
 
 # User-specific files
 *.suo
@@ -244,4 +246,5 @@ PublishProfiles/
 # F# maker artifacts
 .fake
 drop/
+buildtools/Fake
 

@@ -29,9 +29,11 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             string vkAppSecretKey;
             string redirectUri;
             LoadParams(out vkAppId, out vkAppSecretKey, out redirectUri);
-            var urlToGetCode = "https://oauth.vk.com/authorize?client_id=" + vkAppId + "&display=page&redirect_uri=" + redirectUri + "&scope=email&response_type=code&v=5.37";
+            var urlToGetCode = GetCode(vkAppId, redirectUri);
             return Redirect(urlToGetCode);
         }
+
+
         public ActionResult VkResult(string code)
         {
             string vkAppId;
@@ -47,9 +49,8 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public ActionResult Index()
         {
-            var model = (UserProfile)TempData["userProfile"];
-
-            return View();
+            var model = (EntryForm)TempData["userProfile"];
+            return View(model);
         }
 
         public ActionResult Offer()
@@ -61,13 +62,15 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             vkAppId = ConfigurationManager.AppSettings["VkAppId"];
             vkAppSecretKey = ConfigurationManager.AppSettings["VkAppSecretKey"];
-            var hostname = ConfigurationManager.AppSettings["Hostname"];
+            var hostname = ConfigurationManager.AppSettings["RedirectHostname"];
             redirectUri = hostname + (hostname.Substring(hostname.Length - 1, 1) == "/" ? "VkResult" : "/VkResult");
         }
 
-        private static UserProfile GetUserData(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
+        private static EntryForm GetUserData(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
         {
             VkModel userData;
+            AccessData accessData;
+
             using (var client = new WebClient())
             {
                 client.UseDefaultCredentials = true;
@@ -75,24 +78,54 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 client.Encoding = Encoding.UTF8;
                 client.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
 
-                var urlToGetAccessData = "https://oauth.vk.com/access_token?client_id=" + vkAppId + "&client_secret=" + vkAppSecretKey + "&redirect_uri=" + redirectUri + "&code=" + code;
+                var urlToGetAccessData = GetToken(code, vkAppId, vkAppSecretKey, redirectUri);
                 var accessInfo = client.DownloadString(urlToGetAccessData);
-                var accessData = JsonConvert.DeserializeObject<AccessData>(accessInfo);
+                accessData = JsonConvert.DeserializeObject<AccessData>(accessInfo);
 
-                var urlToGetInfo = "https://api.vk.com/method/users.get?user_id=" + accessData.UserId + "&fields=bdate,city,education,contacts&v=5.37&access_token=" + accessData.AccessToken;
+                var urlToGetInfo = UserApiUrl(accessData);
                 var userInfo = client.DownloadString(urlToGetInfo);
                 userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { Culture = new CultureInfo("ru-RU") });
-                userData.Response.FirstOrDefault().Email = accessData.Email;
             }
+
+
+            var model = MapToEntryForm(userData, accessData);
             
 
-            var userData2 = userData.Response.FirstOrDefault();
-            var model = new UserProfile { 
-                //FIO  = userData2.FirstName + " " + userData2.LastName,
-                //Academy =userData2.a
-            };
-
             return model;
+        }
+
+        private static EntryForm MapToEntryForm(VkModel userData, AccessData accessData)
+        {
+            var model = userData.Response.Select(x =>
+                new EntryForm
+                {
+                    Academy = x.Academy,
+                    Birthday = x.Birthday,
+                    City = x.City.Title,
+                    Email = accessData.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    CTN = x.Phone,
+                }).FirstOrDefault();
+            return model;
+        }
+
+        private static string UserApiUrl(AccessData accessData)
+        {
+            var urlToGetInfo = "https://api.vk.com/method/users.get?user_id=" + accessData.UserId + "&fields=bdate,city,education,contacts&v=5.37&access_token=" + accessData.AccessToken + "&x=" + DateTime.Now.Ticks;
+            return urlToGetInfo;
+        }
+
+        private static string GetToken(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
+        {
+            var urlToGetAccessData = "https://oauth.vk.com/access_token?client_id=" + vkAppId + "&client_secret=" + vkAppSecretKey + "&redirect_uri=" + redirectUri + "&code=" + code + "&x=" + DateTime.Now.Ticks;
+            return urlToGetAccessData;
+        }
+
+        private static string GetCode(string vkAppId, string redirectUri)
+        {
+            var urlToGetCode = "https://oauth.vk.com/authorize?client_id=" + vkAppId + "&display=page&redirect_uri=" + redirectUri + "&scope=email&response_type=code&v=5.37" + "&x=" + DateTime.Now.Ticks;
+            return urlToGetCode;
         }
 
 

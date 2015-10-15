@@ -8,7 +8,8 @@ namespace AltLanDS.AllNew.Core
 {
     public class EntryForm
     {
-        public string FIO { get; set; }  // 5.1	Имя, Фамилия(из ВК);
+        public string FirstName { get; set; }
+        public string LastName { get; set; } // 5.1	Имя, Фамилия(из ВК);
         public string CTN { get; set; }  // 5.2	CTN (пустое поле);
         public string Email { get; set; }  // 5.3	Email (если есть, из ВК);
         public DateTime? Birthday { get; set; }  // 5.4	Дата рождения (из ВК);
