@@ -12,8 +12,10 @@ namespace Promo.EverythingIsNew.WebApp.Models
 
     public class SimpleAES
     {
+        //  ключи должны быть по 32 байта
+
         // Change these keys
-        private byte[] Key = { 123, 217, 19, 11, 24, 26, 85, 45, 114, 184, 27, 162, 37, 112, 222, 209, 241, 24, 175, 144, 173, 53, 196, 29, 24, 26, 17, 218, 131, 236, 53, 209 };
+        private byte[] Key = { 5,66,22,11,22,33,44,55,65,3,23,1,62,96,43,64,14,28,32,12,54,32,56,89,09,98,47,74,85,35,35,3,1,14,141,174,127,233,248, 123, 217, 19, 11, 24, 26, 85, 45, 114, 184, 27, 162, 37, 112, 222, 209, 241, 24, 175, 144, 173, 53, 196, 29, 24, 26, 17, 218, 131, 236, 53, 209 };
         private byte[] Vector = { 146, 64, 191, 111, 23, 3, 113, 119, 231, 121, 25, 21, 112, 79, 32, 114, 156 };
 
 
@@ -33,24 +35,7 @@ namespace Promo.EverythingIsNew.WebApp.Models
             UTFEncoder = new System.Text.UTF8Encoding();
         }
 
-        /// -------------- Two Utility Methods (not used but may be useful) -----------
-        /// Generates an encryption key.
-        static public byte[] GenerateEncryptionKey()
-        {
-            //Generate a Key.
-            RijndaelManaged rm = new RijndaelManaged();
-            rm.GenerateKey();
-            return rm.Key;
-        }
 
-        /// Generates a unique encryption vector
-        static public byte[] GenerateEncryptionVector()
-        {
-            //Generate a Vector
-            RijndaelManaged rm = new RijndaelManaged();
-            rm.GenerateIV();
-            return rm.IV;
-        }
 
 
         /// Encrypt some text and return an encrypted byte array.
@@ -133,5 +118,88 @@ namespace Promo.EverythingIsNew.WebApp.Models
             while (i < str.Length);
             return byteArr;
         }
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+    public static class CryptoStreamHelper
+    {
+        private static SymmetricAlgorithm GetAlgorithm(string password)
+        {
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, null);
+
+            SymmetricAlgorithm csp = new RijndaelManaged();
+
+            csp.BlockSize = csp.LegalBlockSizes[0].MaxSize;
+            csp.Key = pdb.GetBytes(csp.LegalKeySizes[0].MaxSize / 8);
+            csp.IV = pdb.GetBytes(csp.BlockSize / 8);
+            
+            return csp;
+        }
+
+        public static CryptoStream GetStreamToWrite(Stream baseStream, string password)
+        {
+            return new CryptoStream(baseStream, GetAlgorithm(password).CreateEncryptor(), CryptoStreamMode.Write);
+        }
+
+        public static CryptoStream GetStreamToRead(Stream baseStream, string password)
+        {
+            return new CryptoStream(baseStream, GetAlgorithm(password).CreateDecryptor(), CryptoStreamMode.Read);
+
+
+
+           
+
+
+
+        }
+
+
+        private SymmetricAlgorithm alg;
+
+        public void A()
+        {
+            alg = (SymmetricAlgorithm)RijndaelManaged.Create(); //пример создания класса RijndaelManaged
+
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes("", null); //класс, позволяющий генерировать ключи на базе паролей
+            pdb.HashName = "SHA512"; //будем использовать SHA512
+            int keylen = (int)10; //получаем размер ключа из ComboBox’а
+            alg.KeySize = keylen; //устанавливаем размер ключа
+            alg.Key = pdb.GetBytes(keylen >> 3); //получаем ключ из пароля
+            alg.Mode = CipherMode.CBC; //используем режим CBC
+            alg.IV = new Byte[alg.BlockSize >> 3]; //и пустой инициализационный вектор
+            ICryptoTransform tr = alg.CreateEncryptor(); //создаем encryptor
+
+            FileStream instream = new FileStream("", FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream outstream = new FileStream("", FileMode.Create, FileAccess.Write, FileShare.None);
+            int buflen = ((2 << 16) / alg.BlockSize) * alg.BlockSize;
+            byte[] inbuf = new byte[buflen];
+            byte[] outbuf = new byte[buflen];
+            int len;
+            while ((len = instream.Read(inbuf, 0, buflen)) == buflen)
+            {
+                int enclen = tr.TransformBlock(inbuf, 0, buflen, outbuf, 0); //собственно шифруем
+                outstream.Write(outbuf, 0, enclen);
+            }
+            instream.Close();
+            outbuf = tr.TransformFinalBlock(inbuf, 0, len); //шифруем финальный блок
+            outstream.Write(outbuf, 0, outbuf.Length);
+            outstream.Close();
+            
+        }
+
+
+
+
+
     }
 }
