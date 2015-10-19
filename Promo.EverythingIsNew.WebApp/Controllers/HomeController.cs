@@ -42,10 +42,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             string redirectUri;
             LoadParams(out vkAppId, out vkAppSecretKey, out redirectUri);
             EntryForm userProfile = GetUserData(code, vkAppId, vkAppSecretKey, redirectUri);
-            //TempData["userProfile"] = userProfile;
-
             EncodeToCookies(userProfile);
-
             return RedirectToAction("Index");
         }
 
@@ -54,9 +51,22 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public ActionResult Index()
         {
-            //var model = (EntryForm)TempData["userProfile"];
             var model = DecodeFromCookies();
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(EntryForm userProfile)
+        {
+            var model = DecodeFromCookies();
+            UsssValidate(userProfile);
+            return View(model);
+        }
+
+        private void UsssValidate(EntryForm userProfile)
+        {
+
+            throw new NotImplementedException();
         }
 
         public ActionResult Offer()
