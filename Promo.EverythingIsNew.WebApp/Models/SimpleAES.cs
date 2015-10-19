@@ -164,38 +164,38 @@ namespace Promo.EverythingIsNew.WebApp.Models
         }
 
 
-        private SymmetricAlgorithm alg;
+        //private SymmetricAlgorithm alg;
 
-        public void A()
-        {
-            alg = (SymmetricAlgorithm)RijndaelManaged.Create(); //пример создания класса RijndaelManaged
+        //public void A()
+        //{
+        //    alg = (SymmetricAlgorithm)RijndaelManaged.Create(); //пример создания класса RijndaelManaged
 
-            PasswordDeriveBytes pdb = new PasswordDeriveBytes("", null); //класс, позволяющий генерировать ключи на базе паролей
-            pdb.HashName = "SHA512"; //будем использовать SHA512
-            int keylen = (int)10; //получаем размер ключа из ComboBox’а
-            alg.KeySize = keylen; //устанавливаем размер ключа
-            alg.Key = pdb.GetBytes(keylen >> 3); //получаем ключ из пароля
-            alg.Mode = CipherMode.CBC; //используем режим CBC
-            alg.IV = new Byte[alg.BlockSize >> 3]; //и пустой инициализационный вектор
-            ICryptoTransform tr = alg.CreateEncryptor(); //создаем encryptor
+        //    PasswordDeriveBytes pdb = new PasswordDeriveBytes("", null); //класс, позволяющий генерировать ключи на базе паролей
+        //    pdb.HashName = "SHA512"; //будем использовать SHA512
+        //    int keylen = (int)10; //получаем размер ключа из ComboBox’а
+        //    alg.KeySize = keylen; //устанавливаем размер ключа
+        //    alg.Key = pdb.GetBytes(keylen >> 3); //получаем ключ из пароля
+        //    alg.Mode = CipherMode.CBC; //используем режим CBC
+        //    alg.IV = new Byte[alg.BlockSize >> 3]; //и пустой инициализационный вектор
+        //    ICryptoTransform tr = alg.CreateEncryptor(); //создаем encryptor
 
-            FileStream instream = new FileStream("", FileMode.Open, FileAccess.Read, FileShare.Read);
-            FileStream outstream = new FileStream("", FileMode.Create, FileAccess.Write, FileShare.None);
-            int buflen = ((2 << 16) / alg.BlockSize) * alg.BlockSize;
-            byte[] inbuf = new byte[buflen];
-            byte[] outbuf = new byte[buflen];
-            int len;
-            while ((len = instream.Read(inbuf, 0, buflen)) == buflen)
-            {
-                int enclen = tr.TransformBlock(inbuf, 0, buflen, outbuf, 0); //собственно шифруем
-                outstream.Write(outbuf, 0, enclen);
-            }
-            instream.Close();
-            outbuf = tr.TransformFinalBlock(inbuf, 0, len); //шифруем финальный блок
-            outstream.Write(outbuf, 0, outbuf.Length);
-            outstream.Close();
+        //    FileStream instream = new FileStream("", FileMode.Open, FileAccess.Read, FileShare.Read);
+        //    FileStream outstream = new FileStream("", FileMode.Create, FileAccess.Write, FileShare.None);
+        //    int buflen = ((2 << 16) / alg.BlockSize) * alg.BlockSize;
+        //    byte[] inbuf = new byte[buflen];
+        //    byte[] outbuf = new byte[buflen];
+        //    int len;
+        //    while ((len = instream.Read(inbuf, 0, buflen)) == buflen)
+        //    {
+        //        int enclen = tr.TransformBlock(inbuf, 0, buflen, outbuf, 0); //собственно шифруем
+        //        outstream.Write(outbuf, 0, enclen);
+        //    }
+        //    instream.Close();
+        //    outbuf = tr.TransformFinalBlock(inbuf, 0, len); //шифруем финальный блок
+        //    outstream.Write(outbuf, 0, outbuf.Length);
+        //    outstream.Close();
             
-        }
+        //}
 
 
 

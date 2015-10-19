@@ -12,6 +12,7 @@ using System.Net.Cache;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Promo.EverythingIsNew.WebApp.Controllers
 {
@@ -40,7 +41,11 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             string vkAppSecretKey;
             string redirectUri;
             LoadParams(out vkAppId, out vkAppSecretKey, out redirectUri);
-            TempData["userProfile"] = GetUserData(code, vkAppId, vkAppSecretKey, redirectUri);
+            EntryForm userProfile = GetUserData(code, vkAppId, vkAppSecretKey, redirectUri);
+            //TempData["userProfile"] = userProfile;
+
+            EncodeToCookies(userProfile);
+
             return RedirectToAction("Index");
         }
 
@@ -49,7 +54,8 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public ActionResult Index()
         {
-            var model = (EntryForm)TempData["userProfile"];
+            //var model = (EntryForm)TempData["userProfile"];
+            var model = DecodeFromCookies();
             return View(model);
         }
 
@@ -70,7 +76,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             VkModel userData;
             AccessData accessData;
-
             using (var client = new WebClient())
             {
                 client.UseDefaultCredentials = true;
@@ -86,11 +91,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 var userInfo = client.DownloadString(urlToGetInfo);
                 userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { Culture = new CultureInfo("ru-RU") });
             }
-
-
             var model = MapToEntryForm(userData, accessData);
-            
-
             return model;
         }
 
@@ -127,6 +128,33 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             var urlToGetCode = "https://oauth.vk.com/authorize?client_id=" + vkAppId + "&display=page&redirect_uri=" + redirectUri + "&scope=email&response_type=code&v=5.37" + "&x=" + DateTime.Now.Ticks;
             return urlToGetCode;
         }
+
+
+        private void EncodeToCookies(EntryForm userProfile)
+        {
+            var cookie = new HttpCookie("UserProfile");
+            var json = JsonConvert.SerializeObject(userProfile);
+            var bytes = Encoding.Unicode.GetBytes(json);
+            var encoded = MachineKey.Protect(bytes);
+            var base64 = Convert.ToBase64String(encoded);
+            cookie.Value = base64;
+            this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+        }
+
+        private EntryForm DecodeFromCookies()
+        {
+            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("UserProfile"))
+            {
+                var cookie = this.ControllerContext.HttpContext.Request.Cookies["UserProfile"];
+                var encoded = Convert.FromBase64String(cookie.Value);
+                var decoded = MachineKey.Unprotect(encoded);
+                var json = Encoding.Unicode.GetString(decoded);
+                EntryForm userProfile = JsonConvert.DeserializeObject<EntryForm>(json);
+                return userProfile;
+            }
+            return null;
+        }
+
 
 
 
