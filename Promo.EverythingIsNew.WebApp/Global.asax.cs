@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -31,6 +32,10 @@ namespace Promo.EverythingIsNew.WebApp
             TestEvents.Log.Critical("Hello world In-Process Critical");
             TestEvents.Log.Error("Hello world In-Process Error");
             TestEvents.Log.Informational("Hello world In-Process Informational");
+
+#if DEBUG
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
         }
     }
 }
