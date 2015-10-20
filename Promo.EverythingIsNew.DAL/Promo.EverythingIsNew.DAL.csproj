@@ -56,7 +56,7 @@
     <Compile Include="Message.cs" />
     <Compile Include="MessageResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SbnClient.cs" />
+    <Compile Include="CbnClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
