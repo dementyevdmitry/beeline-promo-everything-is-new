@@ -1,6 +1,7 @@
 ﻿using AltLanDS.AllNew.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Promo.EverythingIsNew.DAL;
 using Promo.EverythingIsNew.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -26,22 +27,15 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public ActionResult Vk()
         {
-            string vkAppId;
-            string vkAppSecretKey;
-            string redirectUri;
-            LoadParams(out vkAppId, out vkAppSecretKey, out redirectUri);
-            var urlToGetCode = GetCodeUrl(vkAppId, redirectUri);
+            var urlToGetCode = GetCodeUrl(MvcApplication.VkAppId, MvcApplication.RedirectUri);
             return Redirect(urlToGetCode);
         }
 
 
         public ActionResult VkResult(string code)
         {
-            string vkAppId;
-            string vkAppSecretKey;
-            string redirectUri;
-            LoadParams(out vkAppId, out vkAppSecretKey, out redirectUri);
-            EntryForm userProfile = GetUserData(code, vkAppId, vkAppSecretKey, redirectUri);
+
+            EntryForm userProfile = GetUserData(code, MvcApplication.VkAppId, MvcApplication.VkAppSecretKey, MvcApplication.RedirectUri);
             EncodeToCookies(userProfile);
             return RedirectToAction("Index");
         }
@@ -51,21 +45,30 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public ActionResult Index()
         {
-            var model = DecodeFromCookies();
-            return View(model);
+            var userProfile = DecodeFromCookies();
+            return View(userProfile);
         }
 
         [HttpPost]
         public ActionResult Index(EntryForm userProfile)
         {
-            var model = DecodeFromCookies();
-            UsssValidate(userProfile);
-            return View(model);
+            var result = UsssValidate(userProfile);
+            //return View(userProfile);
+            return Content(JsonConvert.SerializeObject(result));
         }
 
-        private void UsssValidate(EntryForm userProfile)
+        private UpdateResult UsssValidate(EntryForm userProfile)
         {
-
+            var model = new Update {
+                birth_date = userProfile.Birthday.ToString(),
+                ctn = userProfile.CTN,
+                email = userProfile.Email,
+                email_unsubscribe = (!userProfile.IsMailingAgree),
+                name = userProfile.LastName,
+                surname = userProfile.LastName,
+                region = userProfile.City
+            };
+            var UpdateResult = MvcApplication.CbnClient.Update(model);
             throw new NotImplementedException();
         }
 
@@ -74,13 +77,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return View();
         }
 
-        private static void LoadParams(out string vkAppId, out string vkAppSecretKey, out string redirectUri)
-        {
-            vkAppId = ConfigurationManager.AppSettings["VkAppId"];
-            vkAppSecretKey = ConfigurationManager.AppSettings["VkAppSecretKey"];
-            var hostname = ConfigurationManager.AppSettings["RedirectHostname"];
-            redirectUri = hostname + (hostname.Substring(hostname.Length - 1, 1) == "/" ? "VkResult" : "/VkResult");
-        }
 
         private static EntryForm GetUserData(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
         {
