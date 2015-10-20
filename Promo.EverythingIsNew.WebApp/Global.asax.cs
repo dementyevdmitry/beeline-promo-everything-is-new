@@ -1,8 +1,10 @@
 ﻿using FullScale180.SemanticLogging;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging;
+using Promo.EverythingIsNew.DAL;
 using Promo.EverythingIsNew.WebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Net;
@@ -15,6 +17,19 @@ namespace Promo.EverythingIsNew.WebApp
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static string VkAppId = ConfigurationManager.AppSettings["VkAppId"];
+        public static string VkAppSecretKey = ConfigurationManager.AppSettings["VkAppSecretKey"];
+        public static string Hostname = ConfigurationManager.AppSettings["RedirectHostname"];
+        public static string RedirectUri = Hostname + (Hostname.Substring(Hostname.Length - 1, 1) == "/" ? "VkResult" : "/VkResult");
+
+        public static string UsssUrl = ConfigurationManager.AppSettings["UsssUrl"];
+        public static string UsssUser = ConfigurationManager.AppSettings["UsssUser"];
+        public static string UsssPassword = ConfigurationManager.AppSettings["UsssPassword"];
+
+        public static CbnClient CbnClient = new CbnClient(UsssUrl, UsssUser, UsssPassword);
+
+
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
