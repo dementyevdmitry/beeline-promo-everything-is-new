@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CbnExeption.cs" />
     <Compile Include="StatusResult.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="UpdateResult.cs" />

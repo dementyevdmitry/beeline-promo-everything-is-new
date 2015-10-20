@@ -32,39 +32,40 @@ namespace Promo.EverythingIsNew.DAL
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
         }
         
-        public async Task<StatusResult> GetStatus(string ctn, string uid)
+        public async Task<StatusResult> GetStatus(Status status)
         {
-            var request = String.Format("status?ctn={0}&uid={1}", ctn, uid);
+            var request = String.Format("status?ctn={0}&uid={1}", status.ctn, status.uid);
             HttpResponseMessage response = await client.GetAsync(request);
             if (response.IsSuccessStatusCode)
             {
-                StatusResult result = await response.Content.ReadAsAsync<StatusResult>();
+                var result = await response.Content.ReadAsAsync<StatusResult>();
                 return result;
             }
+            new CbnException(response.ToString());
             return null;
         }
 
-        public async Task<MessageResult> PostMessage(HttpClient client, string ctn, string uid, string email)
+        public async Task<MessageResult> PostMessage(Message message)
         {
-            var message = new Message() { ctn = ctn, uid = uid, email = email };
             HttpResponseMessage response = await client.PostAsJsonAsync("message", message);
             if (response.IsSuccessStatusCode)
             {
-                MessageResult result = await response.Content.ReadAsAsync<MessageResult>();
+                var result = await response.Content.ReadAsAsync<MessageResult>();
                 return result;
             }
+            new CbnException(response.ToString());
             return null;
         }
 
-        public async Task<MessageResult> Update(HttpClient client, string ctn, string uid, string email)
+        public async Task<UpdateResult> Update(Update update)
         {
-            var message = new Message() { ctn = ctn, uid = uid, email = email };
-            HttpResponseMessage response = await client.PostAsJsonAsync("message", message);
+            HttpResponseMessage response = await client.PostAsJsonAsync("update", update);
             if (response.IsSuccessStatusCode)
             {
-                MessageResult result = await response.Content.ReadAsAsync<MessageResult>();
+                var result = await response.Content.ReadAsAsync<UpdateResult>();
                 return result;
             }
+            new CbnException(response.ToString());
             return null;
         }
 
