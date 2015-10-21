@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Cache;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -50,14 +51,13 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(EntryForm userProfile)
+        public async Task<ActionResult> Index(EntryForm userProfile)
         {
-            var result = UsssValidate(userProfile);
-            //return View(userProfile);
+            UpdateResult result = await CbnValidate(userProfile);
             return Content(JsonConvert.SerializeObject(result));
         }
 
-        private UpdateResult UsssValidate(EntryForm userProfile)
+        private async Task<UpdateResult> CbnValidate(EntryForm userProfile)
         {
             var model = new Update {
                 birth_date = userProfile.Birthday.ToString(),
@@ -68,8 +68,8 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 surname = userProfile.LastName,
                 region = userProfile.City
             };
-            var UpdateResult = MvcApplication.CbnClient.Update(model);
-            throw new NotImplementedException();
+            var UpdateResult = await MvcApplication.CbnClient.Update(model);
+            return UpdateResult;
         }
 
         public ActionResult Offer()
