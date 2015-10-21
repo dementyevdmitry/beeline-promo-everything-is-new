@@ -68,7 +68,5 @@ namespace Promo.EverythingIsNew.DAL
             new CbnException(response.ToString());
             return null;
         }
-
-
     }
 }
