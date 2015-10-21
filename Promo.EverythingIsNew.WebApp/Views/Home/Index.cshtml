@@ -1,6 +1,4 @@
 ﻿@model AltLanDS.AllNew.Core.EntryForm
-
-
 <div class="header">
     <div class="header-wrap">
         <h1>Александр!</h1>
@@ -17,7 +15,7 @@
                 Проверьте, все ли данные мы определили верно из&nbsp;вашего профиля&nbsp;Вконтакте
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             </div>
-            <form>
+            <form id="form-index" method="post">
                 <div class="form-line">
                     <label for="first_name_field">Имя</label>
                     <div class="field">
@@ -90,7 +88,7 @@
                 <br>
 
                 <div class="form-line center" style="width:538px">
-                    <button class="btn-link">Посмотреть предложение</button>
+                    <button id="submit-index" class="btn-link">Посмотреть предложение</button>
                 </div>
 
             </form>
