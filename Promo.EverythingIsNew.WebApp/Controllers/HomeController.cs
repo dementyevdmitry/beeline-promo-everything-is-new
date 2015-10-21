@@ -47,6 +47,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public ActionResult Index()
         {
             var userProfile = DecodeFromCookies();
+            ViewBag.City = GetMarketCodes();
             return View(userProfile);
         }
 
@@ -161,7 +162,15 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return null;
         }
 
-
+        private List<SelectListItem> GetMarketCodes()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Москва", Value = "0", Selected = true });
+            items.Add(new SelectListItem { Text = "Санкт-Петербург", Value = "1" });
+            items.Add(new SelectListItem { Text = "Петропавловск-Камчатский", Value = "2" });
+            items.Add(new SelectListItem { Text = "Воронеж", Value = "3" });
+            return items;
+        }
 
 
     }

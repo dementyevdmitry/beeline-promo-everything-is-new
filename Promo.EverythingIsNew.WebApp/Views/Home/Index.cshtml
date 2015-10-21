@@ -61,6 +61,7 @@
                         <div class="text-select">
                             @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "inp" } })
                             <div class="text-select-list" style="display:block">
+                                @Html.DropDownList("City")
                                 <div class="option">Петропавловск-Камчатский</div>
                                 <div class="option">Москва</div>
                                 <div class="option" alias="Питер,СПБ">Санкт-Петербург</div>
