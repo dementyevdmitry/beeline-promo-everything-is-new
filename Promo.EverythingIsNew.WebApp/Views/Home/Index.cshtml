@@ -59,12 +59,14 @@
                     <label for="place_field">Город</label>
                     <div class="field">
                         <div class="text-select">
-                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "inp" } })
+                            <div class="inp option">city</div>
+                            @*@Html.EditorFor(model => model.SelectMyCity, new { htmlAttributes = new { @class = "inp" } })*@
                             <div class="text-select-list" style="display:block">
-                                @Html.DropDownList("City")
-                                <div class="option">Петропавловск-Камчатский</div>
-                                <div class="option">Москва</div>
-                                <div class="option" alias="Питер,СПБ">Санкт-Петербург</div>
+                                @foreach (string city in ViewBag.Cities)
+                                {
+                                    <div class="option">@city</div>
+                                }
+                                @*<div class="option" alias="Питер,СПБ">Санкт-Петербург</div>*@
                             </div>
                         </div>
                         <div class="hint">Город или ближайший областной центр, в котором живете</div>
@@ -97,5 +99,33 @@
     </div><!--content-wrap-->
 </div><!--content-->
 
+<script>    
+    $(function () {
+        //This is while page load showing first element
+        $('.option').addClass('inactive').hide();
+        $('.text-select-list').addClass('inactive').hide();
+        $('.option:first').addClass('active').removeClass('inactive').show();
 
+        //Showing all option
+        $('.option:first').mouseover(function () {
+            $('.text-select-list').addClass('active').removeClass('inactive').show();
+            //$('#City').addClass('inactive').hide();
+            $('.option').show();
+        });
+
+        //Showing selected option
+        $('.option:first').mouseleave(function () {
+            // добавить нужное значение в hidden
+            $('.text-select-list .inactive').hide();
+        });
+
+        //Onclick making the option active
+        $('.option').click(function () {
+            $('.option').addClass('inactive').removeClass('active');
+            $(this).addClass('active').removeClass('inactive');
+            $('.text-select-list .inactive').hide();
+        });
+    });
+
+</script>
 

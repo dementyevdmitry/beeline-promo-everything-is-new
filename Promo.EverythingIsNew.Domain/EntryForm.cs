@@ -13,7 +13,7 @@ namespace AltLanDS.AllNew.Core
         public string CTN { get; set; }  // 5.2	CTN (пустое поле);
         public string Email { get; set; }  // 5.3	Email (если есть, из ВК);
         public DateTime? Birthday { get; set; }  // 5.4	Дата рождения (из ВК);
-        public string City { get; set; }  // 5.5	Город (из ВК или автоопределенный) 5.5.1	Если указано несколько городов, то берется первый из списка
+        public string SelectMyCity { get; set; }  // 5.5	Город (из ВК или автоопределенный) 5.5.1	Если указано несколько городов, то берется первый из списка
         public string CityId { get; set; }  // Сменить регион можно только на значение из справочника
         public string Captcha { get; set; }  
         public bool IsMailingAgree { get; set; }  // Согласие на получение рассылки

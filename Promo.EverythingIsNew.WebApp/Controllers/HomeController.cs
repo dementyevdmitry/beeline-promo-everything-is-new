@@ -47,7 +47,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public ActionResult Index()
         {
             var userProfile = DecodeFromCookies();
-            ViewBag.City = GetMarketCodes();
+            ViewBag.Cities = GetCities();
             return View(userProfile);
         }
 
@@ -67,7 +67,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 email_unsubscribe = (!userProfile.IsMailingAgree),
                 name = userProfile.LastName,
                 surname = userProfile.LastName,
-                region = userProfile.City
+                region = userProfile.SelectMyCity
             };
             var UpdateResult = await MvcApplication.CbnClient.Update(model);
             return UpdateResult;
@@ -109,7 +109,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 {
                     Academy = x.Academy,
                     Birthday = x.Birthday,
-                    City = x.City.Title,
+                    SelectMyCity = x.City.Title,
                     Email = accessData.Email,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
@@ -162,13 +162,13 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return null;
         }
 
-        private List<SelectListItem> GetMarketCodes()
+        private List<string> GetCities()
         {
-            List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Москва", Value = "0", Selected = true });
-            items.Add(new SelectListItem { Text = "Санкт-Петербург", Value = "1" });
-            items.Add(new SelectListItem { Text = "Петропавловск-Камчатский", Value = "2" });
-            items.Add(new SelectListItem { Text = "Воронеж", Value = "3" });
+            List<string> items = new List<string>();
+            items.Add("Москва");
+            items.Add("Санкт-Петербург");
+            items.Add("Петропавловск-Камчатский");
+            items.Add("Воронеж");
             return items;
         }
 
