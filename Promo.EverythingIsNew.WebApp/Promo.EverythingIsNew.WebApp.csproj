@@ -263,7 +263,7 @@
     <Content Include="Views\WorkflowSample\Offer.cshtml" />
     <Content Include="Views\WorkflowSample\PersonalBeeline.cshtml" />
     <Content Include="Views\Vk\VkInfo.cshtml" />
-    <Content Include="Views\Home\View.cshtml" />
+    <Content Include="Views\Home\Offer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

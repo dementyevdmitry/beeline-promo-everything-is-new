@@ -55,8 +55,14 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public async Task<ActionResult> Index(EntryForm userProfile)
         {
             UpdateResult result = await CbnValidate(userProfile);
-            return Content(JsonConvert.SerializeObject(result));
+            return RedirectToAction("Offer");
         }
+
+        public ActionResult Offer()
+        {
+            return View();
+        }
+
 
         private async Task<UpdateResult> CbnValidate(EntryForm userProfile)
         {
@@ -72,12 +78,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             var UpdateResult = await MvcApplication.CbnClient.Update(model);
             return UpdateResult;
         }
-
-        public ActionResult Offer()
-        {
-            return View();
-        }
-
 
         private static EntryForm GetUserData(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
         {
