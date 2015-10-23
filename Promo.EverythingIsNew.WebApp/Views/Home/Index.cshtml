@@ -101,24 +101,33 @@
 
 <script>    
     $(function () {
-        $('.option').addClass('inactive').hide();
-        $('.text-select-list').addClass('inactive').hide();
+        var dropdown = $(".text-select-list");
+        var options = $('.option');
+
+        options.addClass('inactive').hide();
+        dropdown.addClass('inactive').hide();
         $('.option-selected').addClass('active').removeClass('inactive').show();
 
         $('.option-selected, div.text-select::before').click(function () {
-            $('.text-select-list').addClass('active').removeClass('inactive').show();
-            $('.option').show();
+            dropdown.addClass('active').removeClass('inactive').show();
+            options.show();
         });
 
-        $('.option').click(function () {
-            $('.option').addClass('inactive').removeClass('active');
-            $('.text-select-list').addClass('inactive').hide();
+        options.click(function () {
+            options.addClass('inactive').removeClass('active');
+            dropdown.addClass('inactive').hide();
             $('.option-selected').innerHTML = $(this).innerHTML;
             console.log($(this).innerHTML);
         });
 
-        $('.content').click(function () {
-            $('.text-select-list').addClass('inactive').hide();
+        $(document).mouseup(function (e) {
+            
+
+            if (!dropdown.is(e.target) // if the target of the click isn't the container...
+                && dropdown.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                dropdown.hide();
+            }
         });
     });
 
