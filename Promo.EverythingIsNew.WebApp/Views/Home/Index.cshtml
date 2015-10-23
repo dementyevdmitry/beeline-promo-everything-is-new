@@ -60,6 +60,7 @@
                     <div class="field">
                         <div class="text-select">
                             <div class="inp option-selected">city</div>
+                            <input type="hidden" name="SelectMyCity" id="SelectMyCity" />
                             @*@Html.EditorFor(model => model.SelectMyCity, new { htmlAttributes = new { @class = "inp" } })*@
                             <div class="text-select-list" style="display:block">
                                 @foreach (string city in ViewBag.Cities)
@@ -104,6 +105,7 @@
         var dropdown = $(".text-select-list");
         var options = $('.option');
         var selected = $('.option-selected');
+        var hidden = $('#SelectMyCity');
 
         options.hide();
         dropdown.hide();
@@ -115,8 +117,10 @@
         });
 
         options.click(function () {
+            var innerHtml = $(this).html();
             dropdown.hide();
-            selected.html($(this).html());
+            selected.html(innerHtml);
+            hidden.val(innerHtml);
         });
 
         $(document).mouseup(function (e) {
