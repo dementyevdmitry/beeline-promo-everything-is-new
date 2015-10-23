@@ -104,18 +104,18 @@
         var dropdown = $(".text-select-list");
         var options = $('.option');
 
-        options.addClass('inactive').hide();
-        dropdown.addClass('inactive').hide();
-        $('.option-selected').addClass('active').removeClass('inactive').show();
+        options.hide();
+        dropdown.hide();
+        $('.option-selected').show();
 
         $('.option-selected, div.text-select::before').click(function () {
-            dropdown.addClass('active').removeClass('inactive').show();
+            dropdown.show();
             options.show();
         });
 
         options.click(function () {
-            options.addClass('inactive').removeClass('active');
-            dropdown.addClass('inactive').hide();
+            options;
+            dropdown.hide();
             $('.option-selected').innerHTML = $(this).innerHTML;
             console.log($(this).innerHTML);
         });
