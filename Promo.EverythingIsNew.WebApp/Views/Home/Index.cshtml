@@ -105,7 +105,7 @@
         $('.text-select-list').addClass('inactive').hide();
         $('.option-selected').addClass('active').removeClass('inactive').show();
 
-        $('.option-selected').click(function () {
+        $('.option-selected, div.text-select::before').click(function () {
             $('.text-select-list').addClass('active').removeClass('inactive').show();
             $('.option').show();
         });
@@ -115,6 +115,10 @@
             $('.text-select-list').addClass('inactive').hide();
             $('.option-selected').innerHTML = $(this).innerHTML;
             console.log($(this).innerHTML);
+        });
+
+        $('.content').click(function () {
+            $('.text-select-list').addClass('inactive').hide();
         });
     });
 
