@@ -103,28 +103,27 @@
     $(function () {
         var dropdown = $(".text-select-list");
         var options = $('.option');
+        var selected = $('.option-selected');
 
         options.hide();
         dropdown.hide();
-        $('.option-selected').show();
+        selected.show();
 
-        $('.option-selected, div.text-select::before').click(function () {
+        selected.click(function () {
             dropdown.show();
             options.show();
         });
 
         options.click(function () {
-            options;
             dropdown.hide();
-            $('.option-selected').innerHTML = $(this).innerHTML;
+            selected.html($(this).html());
             console.log($(this).innerHTML);
+            console.log($(this));
         });
 
         $(document).mouseup(function (e) {
-            
-
-            if (!dropdown.is(e.target) // if the target of the click isn't the container...
-                && dropdown.has(e.target).length === 0) // ... nor a descendant of the container
+            if (!dropdown.is(e.target) 
+                && dropdown.has(e.target).length === 0) 
             {
                 dropdown.hide();
             }
