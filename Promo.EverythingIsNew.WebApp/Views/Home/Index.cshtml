@@ -59,7 +59,7 @@
                     <label for="place_field">Город</label>
                     <div class="field">
                         <div class="text-select">
-                            <div class="inp option">city</div>
+                            <div class="inp option-selected">city</div>
                             @*@Html.EditorFor(model => model.SelectMyCity, new { htmlAttributes = new { @class = "inp" } })*@
                             <div class="text-select-list" style="display:block">
                                 @foreach (string city in ViewBag.Cities)
@@ -101,29 +101,20 @@
 
 <script>    
     $(function () {
-        //This is while page load showing first element
         $('.option').addClass('inactive').hide();
         $('.text-select-list').addClass('inactive').hide();
-        $('.option:first').addClass('active').removeClass('inactive').show();
+        $('.option-selected').addClass('active').removeClass('inactive').show();
 
-        //Showing all option
-        $('.option:first').mouseover(function () {
+        $('.option-selected').click(function () {
             $('.text-select-list').addClass('active').removeClass('inactive').show();
-            //$('#City').addClass('inactive').hide();
             $('.option').show();
         });
 
-        //Showing selected option
-        $('.option:first').mouseleave(function () {
-            // добавить нужное значение в hidden
-            $('.text-select-list .inactive').hide();
-        });
-
-        //Onclick making the option active
         $('.option').click(function () {
             $('.option').addClass('inactive').removeClass('active');
-            $(this).addClass('active').removeClass('inactive');
-            $('.text-select-list .inactive').hide();
+            $('.text-select-list').addClass('inactive').hide();
+            $('.option-selected').innerHTML = $(this).innerHTML;
+            console.log($(this).innerHTML);
         });
     });
 
