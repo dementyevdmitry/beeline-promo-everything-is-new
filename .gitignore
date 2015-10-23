@@ -248,3 +248,4 @@ PublishProfiles/
 drop/
 buildtools/Fake
 buildtools/AltLanDS.Fake
+buildtools/misc/version.txt
