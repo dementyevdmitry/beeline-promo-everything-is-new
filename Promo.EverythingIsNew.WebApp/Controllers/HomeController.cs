@@ -60,6 +60,21 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public ActionResult Offer()
         {
+            var model = new OfferViewModel { 
+                UserName = "Александр",
+                TariffName = "#Всё.Супер!",
+                EverydayMinutesPackage = "50",
+                EverydaySmsPackage = "50",
+                EverydayTrafficMbPackage = "50",
+                EveryMonthGbPackage = "2",
+                EveryMonthGbRegion = "Москве",
+                EveryMonthMinutesPackage = "400",
+                EveryMonthMinutesRegion = "Московскому, Центральному и Северо-Западному регионам",
+                EveryMonthSmsPackage = "100",
+                EveryMonthSmsRegion = "Москве",
+                SubscriptionFee = "400",
+                TransitionCost = "0"
+            };
             return View();
         }
 
