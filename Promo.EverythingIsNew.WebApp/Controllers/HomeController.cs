@@ -204,13 +204,13 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             Db = new DpcProxyDbContext(dcpConnectionString); // unity per call
 
 
-            ProductService productService = new ProductService(Db);
-            ProductFilter filter = new ProductFilter("PSK");
-            var mobileTariffs = await productService.GetTariffsByFilter(filter).ToListAsync();
+            //ProductService productService = new ProductService(Db);
+            //ProductFilter filter = new ProductFilter("PSK");
+            //var mobileTariffs = productService.GetTariffsByFilter(filter).ToList();
 
-            //Db = new DpcProxyDbContext(dcpConnectionString); // unity per call
+            Db = new DpcProxyDbContext(dcpConnectionString); // unity per call
             //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
-            //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "60YOUTH");
+            var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "60YOUTH");
 
 
 
@@ -231,7 +231,11 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 TransitionCost = "0"
             };
 
-            return Content(JsonConvert.SerializeObject(mobileTariffs));
+            string json = JsonConvert.SerializeObject(targetTarif);
+            var pattern = "\\r\\n";
+            json = json.Replace(pattern, "<br />");
+
+            return Content(json);
         }
 
 
