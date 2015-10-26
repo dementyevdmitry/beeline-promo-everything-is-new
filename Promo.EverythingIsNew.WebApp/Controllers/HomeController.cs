@@ -212,12 +212,12 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
             var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "60YOUTH");
 
-
+            //targetTarif.DpcProduct.ProductWebEntities.
 
             var model = new OfferViewModel
             {
                 UserName = "Александр",
-                //TariffName = targetTarif.Title,
+                TariffName = targetTarif.DpcProduct.Title,
                 EverydayMinutesPackage = "50",
                 EverydaySmsPackage = "50",
                 EverydayTrafficMbPackage = "50",
@@ -227,7 +227,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 EveryMonthMinutesRegion = "Московскому, Центральному и Северо-Западному регионам",
                 EveryMonthSmsPackage = "100",
                 EveryMonthSmsRegion = "Москве",
-                SubscriptionFee = "400",
+                SubscriptionFee = targetTarif.DpcProduct.Parameters.Where(x=>x.BaseParameter.Id == 2242).FirstOrDefault().NumValue.ToString(),
                 TransitionCost = "0"
             };
 
