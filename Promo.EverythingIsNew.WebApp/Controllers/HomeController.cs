@@ -16,10 +16,19 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
+using AltLanDS.Beeline.DpcProxy.Client;
+
+using System.Data.Entity;
+
 namespace Promo.EverythingIsNew.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private static string _siteUrlFormat = ConfigurationManager.AppSettings["altlands:dpc:site-url"];
+        private static string dcpConnectionString = ConfigurationManager.AppSettings["DcpConnectionString"];
+        public DpcProxyDbContext Db;
+
+
         public ActionResult Choose()
         {
             ViewBag.PersonalBeelineUrl = ConfigurationManager.AppSettings["PersonalBeelineUrl"];
@@ -186,6 +195,47 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             items.Add("Воронеж");
             return items;
         }
+
+
+
+
+        public async Task<ActionResult> GetTariffs()
+        {
+            Db = new DpcProxyDbContext(dcpConnectionString); // unity per call
+
+
+            ProductService productService = new ProductService(Db);
+            ProductFilter filter = new ProductFilter("PSK");
+            var mobileTariffs = await productService.GetTariffsByFilter(filter).ToListAsync();
+
+            //Db = new DpcProxyDbContext(dcpConnectionString); // unity per call
+            //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
+            //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "60YOUTH");
+
+
+
+            var model = new OfferViewModel
+            {
+                UserName = "Александр",
+                //TariffName = targetTarif.Title,
+                EverydayMinutesPackage = "50",
+                EverydaySmsPackage = "50",
+                EverydayTrafficMbPackage = "50",
+                EveryMonthGbPackage = "2",
+                EveryMonthGbRegion = "Москве",
+                EveryMonthMinutesPackage = "400",
+                EveryMonthMinutesRegion = "Московскому, Центральному и Северо-Западному регионам",
+                EveryMonthSmsPackage = "100",
+                EveryMonthSmsRegion = "Москве",
+                SubscriptionFee = "400",
+                TransitionCost = "0"
+            };
+
+            return Content(JsonConvert.SerializeObject(mobileTariffs));
+        }
+
+
+
 
 
     }

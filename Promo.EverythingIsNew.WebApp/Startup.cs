@@ -6,6 +6,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using System.Data.Entity;
+using AltLanDS.Beeline.DpcProxy.Client;
 
 [assembly: OwinStartup(typeof(OAuthProvidersWithoutIdentity.Startup))]
 
@@ -15,17 +17,7 @@ namespace OAuthProvidersWithoutIdentity
     {
         public void Configuration(IAppBuilder app)
         {
-            //app.SetDefaultSignInAsAuthenticationType("ExternalCookie");
-            //app.UseCookieAuthentication(new CookieAuthenticationOptions
-            //{
-            //    AuthenticationType = "ExternalCookie",
-            //    AuthenticationMode = AuthenticationMode.Passive,
-            //    CookieName = ".AspNet.ExternalCookie",
-            //    ExpireTimeSpan = TimeSpan.FromMinutes(5),
-            //});
-
-            
-
+            Database.SetInitializer<DpcProxyDbContext>(null);
         }
     }
 }   
