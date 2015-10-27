@@ -1,4 +1,5 @@
 ﻿using AltLanDS.AllNew.Core;
+using AltLanDS.Beeline.DpcProxy.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Promo.EverythingIsNew.DAL;
@@ -15,10 +16,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-
-using AltLanDS.Beeline.DpcProxy.Client;
-
-using System.Data.Entity;
 
 namespace Promo.EverythingIsNew.WebApp.Controllers
 {
@@ -200,43 +197,42 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public async Task<ActionResult> GetTariffs()
         {
-            Db = new DpcProxyDbContext(dcpConnectionString); // unity per call
-
-
-            //ProductService productService = new ProductService(Db);
-            //ProductFilter filter = new ProductFilter("PSK");
-            //var mobileTariffs = productService.GetTariffsByFilter(filter).ToList();
-
-            Db = new DpcProxyDbContext(dcpConnectionString); // unity per call
+            Db = new DpcProxyDbContext(MvcApplication.dcpConnectionString); // unity per call
             //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
-            var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "35YOUTH");
+            var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == MvcApplication.Soc);
+            var webEntity = targetTarif.DpcProduct.ProductWebEntities.FirstOrDefault(x => x.WebEntity.SOC == MvcApplication.Soc);
 
-            //targetTarif.DpcProduct.ProductWebEntities.
+            var groups = targetTarif.DpcProduct.Parameters
+                    .GroupBy(g => g.Group.Id, (id, lines) => new TariffGroupViewModel
+                    {
+                        Name = lines.FirstOrDefault().Group.Title,
+                        Lines = lines.Select(l => MapTariffValue(l)).ToList()
+                    }).ToList();
 
             var model = new OfferViewModel
             {
-                UserName = "Александр",
-                //TariffName = targetTarif.DpcProduct.ProductWebEntities,
-                EverydayMinutesPackage = "50",
-                EverydaySmsPackage = "50",
-                EverydayTrafficMbPackage = "50",
-                EveryMonthGbPackage = "2",
-                EveryMonthGbRegion = "Москве",
-                EveryMonthMinutesPackage = "400",
-                EveryMonthMinutesRegion = "Московскому, Центральному и Северо-Западному регионам",
-                EveryMonthSmsPackage = "100",
-                EveryMonthSmsRegion = "Москве",
-                //SubscriptionFee = targetTarif.DpcProduct.Parameters.Where(x=>x.BaseParameter.Id == 2242).FirstOrDefault().NumValue.ToString(),
-                TransitionCost = "0"
+                UserName = "ххх",
+                TariffName = targetTarif.DpcProduct.MarketingProduct.Title,
+                Groups = groups
             };
 
             string json = JsonConvert.SerializeObject(targetTarif);
             var pattern = "\\r\\n";
             json = json.Replace(pattern, "<br />");
 
-            return Content(json);
+            string json2 = JsonConvert.SerializeObject(model);
+
+            return Content(json2);
         }
 
+        private static TariffLineViewModel MapTariffValue(AltLanDS.Beeline.DpcProxy.Client.Dpc.ProductParameter l)
+        {
+            return new TariffLineViewModel
+            {
+                Title = l.Title,
+                Value = (l.NumValue != null) ? l.NumValue + " " + l.Unit.Display : l.Value
+            };
+        }
 
 
 
