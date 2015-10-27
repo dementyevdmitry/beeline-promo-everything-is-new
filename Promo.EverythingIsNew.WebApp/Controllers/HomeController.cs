@@ -24,8 +24,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private static string _siteUrlFormat = ConfigurationManager.AppSettings["altlands:dpc:site-url"];
-        private static string dcpConnectionString = ConfigurationManager.AppSettings["DcpConnectionString"];
+
         public DpcProxyDbContext Db;
 
 
@@ -210,14 +209,14 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
             Db = new DpcProxyDbContext(dcpConnectionString); // unity per call
             //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
-            var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "60YOUTH");
+            var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "35YOUTH");
 
             //targetTarif.DpcProduct.ProductWebEntities.
 
             var model = new OfferViewModel
             {
                 UserName = "Александр",
-                TariffName = targetTarif.DpcProduct.Title,
+                //TariffName = targetTarif.DpcProduct.ProductWebEntities,
                 EverydayMinutesPackage = "50",
                 EverydaySmsPackage = "50",
                 EverydayTrafficMbPackage = "50",
@@ -227,7 +226,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 EveryMonthMinutesRegion = "Московскому, Центральному и Северо-Западному регионам",
                 EveryMonthSmsPackage = "100",
                 EveryMonthSmsRegion = "Москве",
-                SubscriptionFee = targetTarif.DpcProduct.Parameters.Where(x=>x.BaseParameter.Id == 2242).FirstOrDefault().NumValue.ToString(),
+                //SubscriptionFee = targetTarif.DpcProduct.Parameters.Where(x=>x.BaseParameter.Id == 2242).FirstOrDefault().NumValue.ToString(),
                 TransitionCost = "0"
             };
 
