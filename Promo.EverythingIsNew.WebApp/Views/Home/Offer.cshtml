@@ -1,4 +1,5 @@
-﻿<div class="header">
+﻿@model Promo.EverythingIsNew.WebApp.Models.OfferViewModel
+<div class="header">
     <div class="header-wrap">
         <h1>Александр!</h1>
         Предлагаем вам персональный тариф
@@ -31,88 +32,31 @@
             </div>
         </div><!--benefits-->
 
-        <div class="fold-block">
-            <a class="fold-link open" href="javascript:void(0)">Каждый месяц вы получаете</a>
-            <div class="foldable" style="display:block">
-                <div class="row">
-                    <div class="desc">400 минут для звонков на &laquo;Билайн&raquo; по&nbsp;России и&nbsp;номера других операторов по&nbsp;Москве и&nbsp;области</div>
-                </div>
-                <div class="row">
-                    <div class="desc">2&nbsp;ГБ мобильного интернета, которы доступен без&nbsp;доплат по&nbsp;Московскому, Центральному и&nbsp;Северо-Западному регионам</div>
-                </div>
-                <div class="row">
-                    <div class="desc">100 SMS для&nbsp;отправки по&nbsp;Москве и&nbsp;области</div>
+        @foreach (var group in Model.Groups)
+        {
+            <div class="fold-block">
+                <a class="fold-link open" href="javascript:void(0)">@group.Name</a>
+                <div class="foldable" style="display:block">
+                    @foreach (var line in group.Lines)
+                    {
+                        <div class="row">
+                            @if (line.NumValue != null)
+                            {
+                                <div class="price"><span>@line.NumValue</span> @line.UnitDisplay</div>
+                            }
+                            @if (line.Value != null)
+                            {
+                                <div class="price">@line.Value</div>
+                            }
+                            <div class="desc">@line.Title</div>
+                        </div>
+                    }
                 </div>
             </div>
-        </div>
 
-        <div class="fold-block">
-            <a class="fold-link open" href="javascript:void(0)">Сколько это стоит</a>
-            <div class="foldable" style="display:block">
-                <div class="row">
-                    <div class="price"><span>400</span> руб. в месяц</div>
-                    <div class="desc">Абонентская плата</div>
-                </div>
-                <div class="row">
-                    <div class="price"><span>0</span> руб.</div>
-                    <div class="desc">Перейти на тариф</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="fold-block">
-            <a class="fold-link" href="javascript:void(0)">Как подключить тариф?</a>
-            <div class="foldable">
-                <div class="row">
-                    <div class="desc">Нажмите на кнопку подключить в конце описания ТП.</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="fold-block">
-            <a class="fold-link" href="javascript:void(0)">Если закончился интернет, минуты или SMS?</a>
-            <div class="foldable">
-                <div class="row">
-                    <div class="desc">Шеф, ВСЁ пропало!</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="fold-block">
-            <a class="fold-link" href="javascript:void(0)">Звонки в другие города и страны</a>
-            <div class="foldable">
-                <div class="row">
-                    <div class="desc">вам дорого обойдутся</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="fold-block">
-            <a class="fold-link" href="javascript:void(0)">В поездках по России и за границей</a>
-            <div class="foldable">
-                <div class="row">
-                    <div class="desc">ещё дороже</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="fold-block">
-            <a class="fold-link" href="javascript:void(0)">Другие возможности</a>
-            <div class="foldable">
-                <div class="row">
-                    <div class="desc">отсутствуют</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="fold-block">
-            <a class="fold-link" href="javascript:void(0)">Нужно больше интернета?</a>
-            <div class="foldable">
-                <div class="row">
-                    <div class="desc">Интернета много не бывает</div>
-                </div>
-            </div>
-        </div>
+        }
+        
+       
 
         <div class="center offer-choice" style="padding-top:50px">
             <a href="javascript:void(0)" class="btn-link"><strong>Воспользуюсь!</strong></a>

@@ -68,17 +68,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             var model = new OfferViewModel { 
                 UserName = "Александр",
                 TariffName = "#Всё.Супер!",
-                EverydayMinutesPackage = "50",
-                EverydaySmsPackage = "50",
-                EverydayTrafficMbPackage = "50",
-                EveryMonthGbPackage = "2",
-                EveryMonthGbRegion = "Москве",
-                EveryMonthMinutesPackage = "400",
-                EveryMonthMinutesRegion = "Московскому, Центральному и Северо-Западному регионам",
-                EveryMonthSmsPackage = "100",
-                EveryMonthSmsRegion = "Москве",
-                SubscriptionFee = "400",
-                TransitionCost = "0"
             };
             return View();
         }
@@ -206,8 +195,9 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                     .GroupBy(g => g.Group.Id, (id, lines) => new TariffGroupViewModel
                     {
                         Name = lines.FirstOrDefault().Group.Title,
-                        Lines = lines.Select(l => MapTariffValue(l)).ToList()
-                    }).ToList();
+                        Lines = lines.Select(l => MapTariffValue(l)).OrderBy(s=>s.SortOrder).ToList(),
+                        SortOrder = lines.FirstOrDefault().Group.SortOrder
+                    }).OrderBy(s => s.SortOrder).ToList();
 
             var model = new OfferViewModel
             {
@@ -230,7 +220,10 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return new TariffLineViewModel
             {
                 Title = l.Title,
-                Value = (l.NumValue != null) ? l.NumValue + " " + l.Unit.Display : l.Value
+                NumValue = l.NumValue.ToString(),
+                UnitDisplay = l.Unit.Display,
+                Value =  l.Value,
+                SortOrder = l.SortOrder
             };
         }
 
