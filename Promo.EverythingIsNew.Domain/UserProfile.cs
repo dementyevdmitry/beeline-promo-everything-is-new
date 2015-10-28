@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AltLanDS.AllNew.Core
+namespace Promo.EverythingIsNew.Domain
 {
     public class UserProfile
     {

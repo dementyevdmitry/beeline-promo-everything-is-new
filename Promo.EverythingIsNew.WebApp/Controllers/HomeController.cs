@@ -1,8 +1,9 @@
-﻿using AltLanDS.AllNew.Core;
-using AltLanDS.Beeline.DpcProxy.Client;
+﻿using AltLanDS.Beeline.DpcProxy.Client;
+using AltLanDS.Beeline.DpcProxy.Client.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Promo.EverythingIsNew.DAL;
+using Promo.EverythingIsNew.Domain;
 using Promo.EverythingIsNew.WebApp.Models;
 using System.Configuration;
 using System.Globalization;
@@ -33,7 +34,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public async Task<ActionResult> VkResult(string code)
         {
-
             EntryForm userProfile = await GetUserData(code, MvcApplication.VkAppId, MvcApplication.VkAppSecretKey, MvcApplication.RedirectUri);
             Helpers.EncodeToCookies(userProfile, this.ControllerContext);
             return RedirectToAction("Index");
@@ -60,7 +60,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public async Task<ActionResult> Offer()
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
-            OfferViewModel model = GetTariff(userProfile.FirstName);
+            OfferViewModel model = Helpers.GetOfferViewModel(userProfile.FirstName);
 
             return View(model);
         }
@@ -71,30 +71,17 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
             var result = await MvcApplication.CbnClient.PostMessage(Helpers.MapToMessage(userProfile));
-
-            return Content(userProfile.Email);
-        }
-
-
-
-        private OfferViewModel GetTariff(string userFirstName)
-        {
-            Db = new DpcProxyDbContext(MvcApplication.dcpConnectionString); // unity per call
-            //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
-            var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == MvcApplication.Soc);
-
-            var groups = targetTarif.DpcProduct.Parameters
-                    .GroupBy(g => g.Group.Id, (id, lines) => Helpers.MapTariffGroup(id, lines))
-                    .OrderBy(s => s.SortOrder).ToList();
-
-            var model = new OfferViewModel
+            if (result.is_message_sent == true)
             {
-                UserName = userFirstName,
-                TariffName = targetTarif.DpcProduct.MarketingProduct.Title,
-                Groups = groups
-            };
-            return model;
+                return Content(userProfile.Email);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(400);
+            }
         }
+
+        
 
 
 
@@ -120,13 +107,5 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             var model = Helpers.MapToEntryForm(userData, accessData);
             return model;
         }
-
-
-
-
-
-
-
-
     }
 }

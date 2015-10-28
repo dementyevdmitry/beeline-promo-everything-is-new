@@ -1,6 +1,6 @@
-﻿using AltLanDS.AllNew.Core;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Promo.EverythingIsNew.DAL;
+using Promo.EverythingIsNew.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,6 +110,23 @@ namespace Promo.EverythingIsNew.WebApp.Models
                 uid = userProfile.Uid,
                 email = userProfile.Email,
             };
+        }
+
+        public static OfferViewModel GetOfferViewModel(string userFirstName)
+        {
+            var targetTarif = DcpClient.GetTariff(MvcApplication.dcpConnectionString, MvcApplication.Soc);
+
+            var groups = targetTarif.DpcProduct.Parameters
+                    .GroupBy(g => g.Group.Id, (id, lines) => Helpers.MapTariffGroup(id, lines))
+                    .OrderBy(s => s.SortOrder).ToList();
+
+            var model = new OfferViewModel
+            {
+                UserName = userFirstName,
+                TariffName = targetTarif.DpcProduct.MarketingProduct.Title,
+                Groups = groups
+            };
+            return model;
         }
     }
 }
