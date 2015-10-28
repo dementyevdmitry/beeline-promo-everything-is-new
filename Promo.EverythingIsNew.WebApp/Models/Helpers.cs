@@ -51,6 +51,7 @@ namespace Promo.EverythingIsNew.WebApp.Models
             var model = userData.Response.Select(x =>
                 new EntryForm
                 {
+                    Uid = x.Id,
                     Academy = x.Academy,
                     Birthday = x.Birthday,
                     SelectMyCity = x.City.Title,
