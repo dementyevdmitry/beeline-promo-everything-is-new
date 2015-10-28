@@ -21,7 +21,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public async Task<ActionResult> Choose()
         {
-            ViewBag.PersonalBeelineUrl = ConfigurationManager.AppSettings["PersonalBeelineUrl"];
+            ViewBag.PersonalBeelineUrl = MvcApplication.PersonalBeelineUrl;
             return View();
         }
 
@@ -51,14 +51,16 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             UpdateResult result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
 
-            //Add ModelState messages
+            //Add ModelState validation messages
 
+            Helpers.EncodeToCookies(userProfile, this.ControllerContext);
             return RedirectToAction("Offer");
         }
 
         public async Task<ActionResult> Offer()
         {
-            OfferViewModel model = GetTariff();
+            var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
+            OfferViewModel model = GetTariff(userProfile.FirstName);
 
             return View(model);
         }
@@ -70,24 +72,24 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
             var result = await MvcApplication.CbnClient.PostMessage(Helpers.MapToMessage(userProfile));
 
-            return Content("test@test.ru");
+            return Content(userProfile.Email);
         }
 
 
 
-        private OfferViewModel GetTariff()
+        private OfferViewModel GetTariff(string userFirstName)
         {
-            var model = new OfferViewModel();
             Db = new DpcProxyDbContext(MvcApplication.dcpConnectionString); // unity per call
             //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
             var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == MvcApplication.Soc);
 
             var groups = targetTarif.DpcProduct.Parameters
-                    .GroupBy(g => g.Group.Id, (id, lines) => Helpers.MapTariffGroup(id, lines)).OrderBy(s => s.SortOrder).ToList();
+                    .GroupBy(g => g.Group.Id, (id, lines) => Helpers.MapTariffGroup(id, lines))
+                    .OrderBy(s => s.SortOrder).ToList();
 
-            model = new OfferViewModel
+            var model = new OfferViewModel
             {
-                UserName = "ххх",
+                UserName = userFirstName,
                 TariffName = targetTarif.DpcProduct.MarketingProduct.Title,
                 Groups = groups
             };

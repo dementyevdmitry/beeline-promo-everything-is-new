@@ -21,6 +21,7 @@ namespace Promo.EverythingIsNew.WebApp
         public static string VkAppSecretKey = ConfigurationManager.AppSettings["VkAppSecretKey"];
         public static string Hostname = ConfigurationManager.AppSettings["RedirectHostname"];
         public static string RedirectUri = Hostname + (Hostname.Substring(Hostname.Length - 1, 1) == "/" ? "VkResult" : "/VkResult");
+        public static string PersonalBeelineUrl = ConfigurationManager.AppSettings["PersonalBeelineUrl"];
 
         public static string UsssUrl = ConfigurationManager.AppSettings["UsssUrl"];
         public static string UsssUser = ConfigurationManager.AppSettings["UsssUser"];
