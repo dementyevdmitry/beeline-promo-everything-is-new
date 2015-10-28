@@ -4,8 +4,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Promo.EverythingIsNew.DAL;
 using Promo.EverythingIsNew.WebApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
@@ -13,9 +11,7 @@ using System.Net;
 using System.Net.Cache;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace Promo.EverythingIsNew.WebApp.Controllers
 {
@@ -23,27 +19,27 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
     {
         public DpcProxyDbContext Db;
 
-        public ActionResult Choose()
+        public async Task<ActionResult> Choose()
         {
             ViewBag.PersonalBeelineUrl = ConfigurationManager.AppSettings["PersonalBeelineUrl"];
             return View();
         }
 
-        public ActionResult Vk()
+        public async Task<ActionResult> Vk()
         {
             var urlToGetCode = VkHelpers.GetCodeUrl(MvcApplication.VkAppId, MvcApplication.RedirectUri);
             return Redirect(urlToGetCode);
         }
 
-        public ActionResult VkResult(string code)
+        public async Task<ActionResult> VkResult(string code)
         {
 
-            EntryForm userProfile = GetUserData(code, MvcApplication.VkAppId, MvcApplication.VkAppSecretKey, MvcApplication.RedirectUri);
+            EntryForm userProfile = await GetUserData(code, MvcApplication.VkAppId, MvcApplication.VkAppSecretKey, MvcApplication.RedirectUri);
             Helpers.EncodeToCookies(userProfile, this.ControllerContext);
             return RedirectToAction("Index");
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
             ViewBag.Cities = Helpers.GetTestCities();
@@ -53,7 +49,10 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(EntryForm userProfile)
         {
-            UpdateResult result = await CbnValidate(userProfile);
+            UpdateResult result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
+
+            //Add ModelState messages
+
             return RedirectToAction("Offer");
         }
 
@@ -63,6 +62,18 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        [ActionName("Offer")]
+        public async Task<ActionResult> OfferPost()
+        {
+            var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
+            var result = await MvcApplication.CbnClient.PostMessage(Helpers.MapToMessage(userProfile));
+
+            return Content("test@test.ru");
+        }
+
+
 
         private OfferViewModel GetTariff()
         {
@@ -83,22 +94,9 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return model;
         }
 
-        private async Task<UpdateResult> CbnValidate(EntryForm userProfile)
-        {
-            var model = new Update {
-                birth_date = userProfile.Birthday.ToString(),
-                ctn = userProfile.CTN,
-                email = userProfile.Email,
-                email_unsubscribe = (!userProfile.IsMailingAgree),
-                name = userProfile.LastName,
-                surname = userProfile.LastName,
-                region = userProfile.SelectMyCity
-            };
-            var UpdateResult = await MvcApplication.CbnClient.Update(model);
-            return UpdateResult;
-        }
 
-        private static EntryForm GetUserData(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
+
+        private static async Task<EntryForm> GetUserData(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
         {
             VkModel userData;
             AccessData accessData;

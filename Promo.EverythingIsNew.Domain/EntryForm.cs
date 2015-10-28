@@ -18,6 +18,7 @@ namespace AltLanDS.AllNew.Core
         public string Captcha { get; set; }  
         public bool IsMailingAgree { get; set; }  // Согласие на получение рассылки
         public string Academy { get; set; }  // Вуз
+        public string Uid { get; set; }
     }
 
     /*

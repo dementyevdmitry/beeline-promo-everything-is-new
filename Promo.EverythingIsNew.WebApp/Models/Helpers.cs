@@ -86,5 +86,29 @@ namespace Promo.EverythingIsNew.WebApp.Models
             }
             return null;
         }
+
+        public static Update MapToUpdate(EntryForm userProfile)
+        {
+            return new Update
+            {
+                birth_date = userProfile.Birthday.ToString(),
+                ctn = userProfile.CTN,
+                email = userProfile.Email,
+                email_unsubscribe = (!userProfile.IsMailingAgree),
+                name = userProfile.LastName,
+                surname = userProfile.LastName,
+                region = userProfile.SelectMyCity
+            };
+        }
+
+        public static Message MapToMessage(EntryForm userProfile)
+        {
+            return new Message
+            {
+                ctn = userProfile.CTN,
+                uid = userProfile.Uid,
+                email = userProfile.Email,
+            };
+        }
     }
 }
