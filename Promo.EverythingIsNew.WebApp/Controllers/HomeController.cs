@@ -39,14 +39,14 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
 
             EntryForm userProfile = GetUserData(code, MvcApplication.VkAppId, MvcApplication.VkAppSecretKey, MvcApplication.RedirectUri);
-            EncodeToCookies(userProfile);
+            Helpers.EncodeToCookies(userProfile, this.ControllerContext);
             return RedirectToAction("Index");
         }
 
         public ActionResult Index()
         {
-            var userProfile = DecodeFromCookies();
-            ViewBag.Cities = GetCities();
+            var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
+            ViewBag.Cities = Helpers.GetTestCities();
             return View(userProfile);
         }
 
@@ -59,29 +59,28 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public async Task<ActionResult> Offer()
         {
+            OfferViewModel model = GetTariff();
+
+            return View(model);
+        }
+
+        private OfferViewModel GetTariff()
+        {
+            var model = new OfferViewModel();
             Db = new DpcProxyDbContext(MvcApplication.dcpConnectionString); // unity per call
             //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
             var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == MvcApplication.Soc);
-            //var webEntity = targetTarif.DpcProduct.ProductWebEntities.FirstOrDefault(x => x.WebEntity.SOC == MvcApplication.Soc);
 
             var groups = targetTarif.DpcProduct.Parameters
-                    .GroupBy(g => g.Group.Id, (id, lines) => MapTariffGroup(id, lines)).OrderBy(s => s.SortOrder).ToList();
+                    .GroupBy(g => g.Group.Id, (id, lines) => Helpers.MapTariffGroup(id, lines)).OrderBy(s => s.SortOrder).ToList();
 
-            var model = new OfferViewModel
+            model = new OfferViewModel
             {
                 UserName = "ххх",
                 TariffName = targetTarif.DpcProduct.MarketingProduct.Title,
                 Groups = groups
             };
-
-            string json = JsonConvert.SerializeObject(targetTarif);
-            var pattern = "\\r\\n";
-            json = json.Replace(pattern, "<br />");
-
-            string json2 = JsonConvert.SerializeObject(model);
-
-            return View(model);
-            //return Content(json);
+            return model;
         }
 
         private async Task<UpdateResult> CbnValidate(EntryForm userProfile)
@@ -118,82 +117,16 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 var userInfo = client.DownloadString(urlToGetInfo);
                 userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { Culture = new CultureInfo("ru-RU") });
             }
-            var model = MapToEntryForm(userData, accessData);
+            var model = Helpers.MapToEntryForm(userData, accessData);
             return model;
         }
 
-        private static EntryForm MapToEntryForm(VkModel userData, AccessData accessData)
-        {
-            var model = userData.Response.Select(x =>
-                new EntryForm
-                {
-                    Academy = x.Academy,
-                    Birthday = x.Birthday,
-                    SelectMyCity = x.City.Title,
-                    Email = accessData.Email,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    CTN = x.Phone,
-                }).FirstOrDefault();
-            return model;
-        }
 
-        private void EncodeToCookies(EntryForm userProfile)
-        {
-            var cookie = new HttpCookie("UserProfile");
-            var json = JsonConvert.SerializeObject(userProfile);
-            var bytes = Encoding.Unicode.GetBytes(json);
-            var encoded = MachineKey.Protect(bytes);
-            var base64 = Convert.ToBase64String(encoded);
-            cookie.Value = base64;
-            this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-        }
 
-        private EntryForm DecodeFromCookies()
-        {
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("UserProfile"))
-            {
-                var cookie = this.ControllerContext.HttpContext.Request.Cookies["UserProfile"];
-                var encoded = Convert.FromBase64String(cookie.Value);
-                var decoded = MachineKey.Unprotect(encoded);
-                var json = Encoding.Unicode.GetString(decoded);
-                EntryForm userProfile = JsonConvert.DeserializeObject<EntryForm>(json);
-                return userProfile;
-            }
-            return null;
-        }
 
-        private List<string> GetCities()
-        {
-            List<string> items = new List<string>();
-            items.Add("Москва");
-            items.Add("Санкт-Петербург");
-            items.Add("Петропавловск-Камчатский");
-            items.Add("Воронеж");
-            return items;
-        }
 
-        private static TariffGroupViewModel MapTariffGroup(int id, IEnumerable<AltLanDS.Beeline.DpcProxy.Client.Dpc.ProductParameter> lines)
-        {
-            return new TariffGroupViewModel
-            {
-                Id = id,
-                Name = lines.FirstOrDefault().Group.Title,
-                SortOrder = lines.FirstOrDefault().Group.SortOrder,
-                Lines = lines.Select(l => MapTariffLine(l)).OrderBy(s => s.SortOrder).ToList()
-            };
-        }
 
-        private static TariffLineViewModel MapTariffLine(AltLanDS.Beeline.DpcProxy.Client.Dpc.ProductParameter l)
-        {
-            return new TariffLineViewModel
-            {
-                Title = l.Title,
-                NumValue = l.NumValue.ToString(),
-                UnitDisplay = (l.Unit != null) ? l.Unit.Display : null,
-                Value =  l.Value,
-                SortOrder = l.SortOrder
-            };
-        }
+
+
     }
 }
