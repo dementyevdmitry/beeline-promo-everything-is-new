@@ -1,10 +1,6 @@
 ﻿using AltLanDS.Beeline.DpcProxy.Client;
 using AltLanDS.Beeline.DpcProxy.Client.Domain;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Promo.EverythingIsNew.DAL
 {

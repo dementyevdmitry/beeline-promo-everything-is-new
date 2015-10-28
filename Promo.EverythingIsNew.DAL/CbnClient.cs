@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Configuration;
-using System.Net.Http.Headers;
-using Promo.EverythingIsNew.DAL;
-using System.Net;
+
 namespace Promo.EverythingIsNew.DAL
 {
     public class CbnClient

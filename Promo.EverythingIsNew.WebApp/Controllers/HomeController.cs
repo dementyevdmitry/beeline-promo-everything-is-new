@@ -1,16 +1,7 @@
 ﻿using AltLanDS.Beeline.DpcProxy.Client;
-using AltLanDS.Beeline.DpcProxy.Client.Domain;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Promo.EverythingIsNew.DAL;
 using Promo.EverythingIsNew.Domain;
 using Promo.EverythingIsNew.WebApp.Models;
-using System.Configuration;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Cache;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -81,11 +72,5 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 return new HttpStatusCodeResult(400);
             }
         }
-
-        
-
-
-
-        
     }
 }
