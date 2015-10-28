@@ -46,7 +46,7 @@ namespace Promo.EverythingIsNew.WebApp.Models
             return items;
         }
 
-        public static EntryForm MapToEntryForm(VkModel userData, AccessData accessData)
+        public static EntryForm MapToEntryForm(VkModel userData)
         {
             var model = userData.Response.Select(x =>
                 new EntryForm
@@ -55,7 +55,7 @@ namespace Promo.EverythingIsNew.WebApp.Models
                     Academy = x.Academy,
                     Birthday = x.Birthday,
                     SelectMyCity = x.City.Title,
-                    Email = accessData.Email,
+                    Email = x.Email,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
                     CTN = x.Phone,

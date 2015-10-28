@@ -71,6 +71,7 @@
     <Compile Include="MessageResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CbnClient.cs" />
+    <Compile Include="VkClient.cs" />
     <Compile Include="VkHelpers.cs" />
     <Compile Include="VkModel.cs" />
   </ItemGroup>

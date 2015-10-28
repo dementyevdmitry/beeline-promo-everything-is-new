@@ -34,7 +34,8 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public async Task<ActionResult> VkResult(string code)
         {
-            EntryForm userProfile = await GetUserData(code, MvcApplication.VkAppId, MvcApplication.VkAppSecretKey, MvcApplication.RedirectUri);
+            EntryForm userProfile = Helpers.MapToEntryForm(
+                await VkClient.GetUserData(code, MvcApplication.VkAppId, MvcApplication.VkAppSecretKey, MvcApplication.RedirectUri));
             Helpers.EncodeToCookies(userProfile, this.ControllerContext);
             return RedirectToAction("Index");
         }
@@ -85,27 +86,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
 
 
-        private static async Task<EntryForm> GetUserData(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
-        {
-            VkModel userData;
-            AccessData accessData;
-            using (var client = new WebClient())
-            {
-                client.UseDefaultCredentials = true;
-                client.Headers["Content-Type"] = "application/json";
-                client.Encoding = Encoding.UTF8;
-                client.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
-
-                var urlToGetAccessData = VkHelpers.GetTokenUrl(code, vkAppId, vkAppSecretKey, redirectUri);
-                var accessInfo = client.DownloadString(urlToGetAccessData);
-                accessData = JsonConvert.DeserializeObject<AccessData>(accessInfo);
-
-                var urlToGetInfo = VkHelpers.UserApiUrl(accessData);
-                var userInfo = client.DownloadString(urlToGetInfo);
-                userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { Culture = new CultureInfo("ru-RU") });
-            }
-            var model = Helpers.MapToEntryForm(userData, accessData);
-            return model;
-        }
+        
     }
 }
