@@ -51,4 +51,30 @@ $(function () {
     $("#submit-index").click(function () {
         $('#form-index').submit();
     });
+
+    /*  popup  */
+    $(document).on("click", ".popup-cont .popup-close, .popup-cont .popup-mask", function () {
+        $(this).closest(".popup-cont").hide();
+        return false;
+    });
+
+    function showPopup(obj) {
+        var $obj = $(obj);
+
+        if ($obj.length != 1) return;
+
+
+        $obj.show().siblings(".popup").hide();
+        $obj.closest(".popup-cont").show();
+
+        var top = $(document).scrollTop() + ($(window).height() - $obj.outerHeight()) * 0.4;
+        $obj.css("top", parseInt(top) + "px");
+        return false;
+    }
+
+    // usage
+    $(document).on("click", ".wrong-email", function () {
+        showPopup(".wrong-email-popup");
+    });
+        /* /popup  */
 });
