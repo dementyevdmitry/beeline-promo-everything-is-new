@@ -69,7 +69,7 @@ h2										{font-size:30px;margin-bottom:11px;text-align:center}
     .text-select-list					{position:absolute;z-index:1;background:#fff;top:-5px;left:-5px;right:-5px;padding-top:70px;padding-bottom:5px;
                                          border:1px solid #282828;border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px;display:none;overflow:hidden}
     .text-select .inp					{position:relative;z-index:2;width:310px !important;padding-right:39px !important}
-    .text-select:before					{content:"";position:absolute;z-index:10;top:21px;right:20px;width:11px;height:10px;background:url('../i/select-down.png') 0 0 no-repeat}
+    .text-select:before					{content:"";position:absolute;z-index:0;top:21px;right:20px;width:11px;height:10px;background:url('../i/select-down.png') 0 0 no-repeat}
     .text-select-list .option			{padding:10px 15px 10px 29px;font-size:18px;color:#282828;font-family:'officinaserifcregular';margin-bottom:1px;cursor:pointer;cursor:hand}
     .text-select-list .option:hover		{background-color:#f5f5f5}
 
