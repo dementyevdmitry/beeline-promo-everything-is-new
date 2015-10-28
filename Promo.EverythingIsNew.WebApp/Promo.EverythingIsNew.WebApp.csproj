@@ -211,6 +211,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Helpers.cs" />
     <Compile Include="Models\OfferViewModel.cs" />
     <Compile Include="Models\TestEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
