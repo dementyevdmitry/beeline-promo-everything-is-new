@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Promo.EverythingIsNew.WebApp.Models
+namespace Promo.EverythingIsNew.DAL
 {
     public class VkModel
     {
@@ -29,7 +29,7 @@ namespace Promo.EverythingIsNew.WebApp.Models
         public string Academy { get; set; }
         [JsonProperty("mobile_phone")]
         public string Phone { get; set; }
-        
+
     }
 
     public class City

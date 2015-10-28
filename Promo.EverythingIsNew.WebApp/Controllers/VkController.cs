@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Promo.EverythingIsNew.DAL;
 using Promo.EverythingIsNew.WebApp.Models;
 using System;
 using System.Collections.Generic;

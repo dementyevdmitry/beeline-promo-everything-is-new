@@ -31,7 +31,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         public ActionResult Vk()
         {
-            var urlToGetCode = GetCodeUrl(MvcApplication.VkAppId, MvcApplication.RedirectUri);
+            var urlToGetCode = VkHelpers.GetCodeUrl(MvcApplication.VkAppId, MvcApplication.RedirectUri);
             return Redirect(urlToGetCode);
         }
 
@@ -62,7 +62,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             Db = new DpcProxyDbContext(MvcApplication.dcpConnectionString); // unity per call
             //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
             var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == MvcApplication.Soc);
-            var webEntity = targetTarif.DpcProduct.ProductWebEntities.FirstOrDefault(x => x.WebEntity.SOC == MvcApplication.Soc);
+            //var webEntity = targetTarif.DpcProduct.ProductWebEntities.FirstOrDefault(x => x.WebEntity.SOC == MvcApplication.Soc);
 
             var groups = targetTarif.DpcProduct.Parameters
                     .GroupBy(g => g.Group.Id, (id, lines) => MapTariffGroup(id, lines)).OrderBy(s => s.SortOrder).ToList();
@@ -81,6 +81,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             string json2 = JsonConvert.SerializeObject(model);
 
             return View(model);
+            //return Content(json);
         }
 
         private async Task<UpdateResult> CbnValidate(EntryForm userProfile)
@@ -109,11 +110,11 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 client.Encoding = Encoding.UTF8;
                 client.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
 
-                var urlToGetAccessData = GetTokenUrl(code, vkAppId, vkAppSecretKey, redirectUri);
+                var urlToGetAccessData = VkHelpers.GetTokenUrl(code, vkAppId, vkAppSecretKey, redirectUri);
                 var accessInfo = client.DownloadString(urlToGetAccessData);
                 accessData = JsonConvert.DeserializeObject<AccessData>(accessInfo);
 
-                var urlToGetInfo = UserApiUrl(accessData);
+                var urlToGetInfo = VkHelpers.UserApiUrl(accessData);
                 var userInfo = client.DownloadString(urlToGetInfo);
                 userData = JsonConvert.DeserializeObject<VkModel>(userInfo, new IsoDateTimeConverter { Culture = new CultureInfo("ru-RU") });
             }
@@ -135,24 +136,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                     CTN = x.Phone,
                 }).FirstOrDefault();
             return model;
-        }
-
-        private static string UserApiUrl(AccessData accessData)
-        {
-            var urlToGetInfo = "https://api.vk.com/method/users.get?user_id=" + accessData.UserId + "&fields=bdate,city,education,contacts&v=5.37&access_token=" + accessData.AccessToken + "&x=" + DateTime.Now.Ticks;
-            return urlToGetInfo;
-        }
-
-        private static string GetTokenUrl(string code, string vkAppId, string vkAppSecretKey, string redirectUri)
-        {
-            var urlToGetAccessData = "https://oauth.vk.com/access_token?client_id=" + vkAppId + "&client_secret=" + vkAppSecretKey + "&redirect_uri=" + redirectUri + "&code=" + code + "&x=" + DateTime.Now.Ticks;
-            return urlToGetAccessData;
-        }
-
-        private static string GetCodeUrl(string vkAppId, string redirectUri)
-        {
-            var urlToGetCode = "https://oauth.vk.com/authorize?client_id=" + vkAppId + "&display=page&redirect_uri=" + redirectUri + "&scope=email&response_type=code&v=5.37" + "&x=" + DateTime.Now.Ticks;
-            return urlToGetCode;
         }
 
         private void EncodeToCookies(EntryForm userProfile)

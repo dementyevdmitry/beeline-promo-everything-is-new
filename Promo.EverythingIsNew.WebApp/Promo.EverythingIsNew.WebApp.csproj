@@ -223,7 +223,6 @@
     <Compile Include="Models\ProductService.cs" />
     <Compile Include="Models\SimpleAES.cs" />
     <Compile Include="Models\TestEvents.cs" />
-    <Compile Include="Models\VkModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
