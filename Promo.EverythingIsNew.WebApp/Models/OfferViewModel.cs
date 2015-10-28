@@ -9,11 +9,6 @@ namespace Promo.EverythingIsNew.WebApp.Models
     {
         public string UserName { get; set; }
         public string TariffName { get; set; }
-
-        //public string EverydayMinutesPackage { get; set; }
-        //public string EverydayTrafficMbPackage { get; set; }
-        //public string EverydaySmsPackage { get; set; }
-
         public List<TariffGroupViewModel> Groups { get; set; }
 
         public OfferViewModel()

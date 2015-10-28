@@ -279,9 +279,7 @@
     <Content Include="Views\Vk\VkInfo.cshtml" />
     <Content Include="Views\Home\Offer.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
