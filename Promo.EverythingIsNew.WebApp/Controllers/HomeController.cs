@@ -21,9 +21,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-
         public DpcProxyDbContext Db;
-
 
         public ActionResult Choose()
         {
@@ -37,7 +35,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return Redirect(urlToGetCode);
         }
 
-
         public ActionResult VkResult(string code)
         {
 
@@ -45,9 +42,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             EncodeToCookies(userProfile);
             return RedirectToAction("Index");
         }
-
-
-
 
         public ActionResult Index()
         {
@@ -61,6 +55,32 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             UpdateResult result = await CbnValidate(userProfile);
             return RedirectToAction("Offer");
+        }
+
+        public async Task<ActionResult> Offer()
+        {
+            Db = new DpcProxyDbContext(MvcApplication.dcpConnectionString); // unity per call
+            //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
+            var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == MvcApplication.Soc);
+            var webEntity = targetTarif.DpcProduct.ProductWebEntities.FirstOrDefault(x => x.WebEntity.SOC == MvcApplication.Soc);
+
+            var groups = targetTarif.DpcProduct.Parameters
+                    .GroupBy(g => g.Group.Id, (id, lines) => MapTariffGroup(id, lines)).OrderBy(s => s.SortOrder).ToList();
+
+            var model = new OfferViewModel
+            {
+                UserName = "ххх",
+                TariffName = targetTarif.DpcProduct.MarketingProduct.Title,
+                Groups = groups
+            };
+
+            string json = JsonConvert.SerializeObject(targetTarif);
+            var pattern = "\\r\\n";
+            json = json.Replace(pattern, "<br />");
+
+            string json2 = JsonConvert.SerializeObject(model);
+
+            return View(model);
         }
 
         private async Task<UpdateResult> CbnValidate(EntryForm userProfile)
@@ -135,7 +155,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return urlToGetCode;
         }
 
-
         private void EncodeToCookies(EntryForm userProfile)
         {
             var cookie = new HttpCookie("UserProfile");
@@ -171,35 +190,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return items;
         }
 
-
-
-
-        public async Task<ActionResult> Offer()
-        {
-            Db = new DpcProxyDbContext(MvcApplication.dcpConnectionString); // unity per call
-            //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
-            var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == MvcApplication.Soc);
-            var webEntity = targetTarif.DpcProduct.ProductWebEntities.FirstOrDefault(x => x.WebEntity.SOC == MvcApplication.Soc);
-
-            var groups = targetTarif.DpcProduct.Parameters
-                    .GroupBy(g => g.Group.Id, (id, lines) => MapTariffGroup(id, lines)).OrderBy(s => s.SortOrder).ToList();
-
-            var model = new OfferViewModel
-            {
-                UserName = "ххх",
-                TariffName = targetTarif.DpcProduct.MarketingProduct.Title,
-                Groups = groups
-            };
-
-            string json = JsonConvert.SerializeObject(targetTarif);
-            var pattern = "\\r\\n";
-            json = json.Replace(pattern, "<br />");
-
-            string json2 = JsonConvert.SerializeObject(model);
-
-            return View("Offer", model);
-        }
-
         private static TariffGroupViewModel MapTariffGroup(int id, IEnumerable<AltLanDS.Beeline.DpcProxy.Client.Dpc.ProductParameter> lines)
         {
             return new TariffGroupViewModel
@@ -222,9 +212,5 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 SortOrder = l.SortOrder
             };
         }
-
-
-
-
     }
 }
