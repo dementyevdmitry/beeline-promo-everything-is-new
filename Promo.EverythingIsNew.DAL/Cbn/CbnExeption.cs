@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Promo.EverythingIsNew.DAL
+namespace Promo.EverythingIsNew.DAL.Cbn
 {
     [Serializable]
     public class CbnException : Exception

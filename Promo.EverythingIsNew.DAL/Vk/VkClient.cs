@@ -7,7 +7,7 @@ using System.Net.Cache;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Promo.EverythingIsNew.DAL
+namespace Promo.EverythingIsNew.DAL.Vk
 {
     public class VkClient
     {

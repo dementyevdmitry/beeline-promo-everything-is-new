@@ -1,5 +1,5 @@
 ﻿using AltLanDS.Beeline.DpcProxy.Client;
-using Promo.EverythingIsNew.DAL;
+using Promo.EverythingIsNew.DAL.Vk;
 using Promo.EverythingIsNew.Domain;
 using Promo.EverythingIsNew.WebApp.Models;
 using System.Threading.Tasks;
@@ -41,7 +41,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(EntryForm userProfile)
         {
-            UpdateResult result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
+            var result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
 
             //Add ModelState validation messages
 

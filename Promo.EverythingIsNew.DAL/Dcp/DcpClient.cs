@@ -2,7 +2,7 @@
 using AltLanDS.Beeline.DpcProxy.Client.Domain;
 using System.Linq;
 
-namespace Promo.EverythingIsNew.DAL
+namespace Promo.EverythingIsNew.DAL.Dcp
 {
     public class DcpClient
     {

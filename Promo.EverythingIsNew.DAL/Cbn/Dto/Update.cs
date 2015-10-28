@@ -1,4 +1,4 @@
-﻿namespace Promo.EverythingIsNew.DAL
+﻿namespace Promo.EverythingIsNew.DAL.Cbn.Dto
 {
     public class Update
     {

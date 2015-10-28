@@ -61,24 +61,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CbnExeption.cs" />
-    <Compile Include="DcpClient.cs" />
-    <Compile Include="StatusResult.cs" />
-    <Compile Include="Status.cs" />
-    <Compile Include="UpdateResult.cs" />
-    <Compile Include="Update.cs" />
-    <Compile Include="Message.cs" />
-    <Compile Include="MessageResult.cs" />
+    <Compile Include="Cbn\CbnExeption.cs" />
+    <Compile Include="Dcp\DcpClient.cs" />
+    <Compile Include="Cbn\Dto\StatusResult.cs" />
+    <Compile Include="Cbn\Dto\Status.cs" />
+    <Compile Include="Cbn\Dto\UpdateResult.cs" />
+    <Compile Include="Cbn\Dto\Update.cs" />
+    <Compile Include="Cbn\Dto\Message.cs" />
+    <Compile Include="Cbn\Dto\MessageResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CbnClient.cs" />
-    <Compile Include="VkClient.cs" />
-    <Compile Include="VkHelpers.cs" />
-    <Compile Include="VkModel.cs" />
+    <Compile Include="Cbn\CbnClient.cs" />
+    <Compile Include="Vk\VkClient.cs" />
+    <Compile Include="Vk\VkHelpers.cs" />
+    <Compile Include="Vk\VkModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

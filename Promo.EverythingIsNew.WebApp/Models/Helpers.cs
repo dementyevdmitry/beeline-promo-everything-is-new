@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Promo.EverythingIsNew.DAL;
+using Promo.EverythingIsNew.DAL.Cbn.Dto;
+using Promo.EverythingIsNew.DAL.Dcp;
+using Promo.EverythingIsNew.DAL.Vk;
 using Promo.EverythingIsNew.Domain;
 using System;
 using System.Collections.Generic;

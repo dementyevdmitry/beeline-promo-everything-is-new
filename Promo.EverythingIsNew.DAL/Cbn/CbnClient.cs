@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Promo.EverythingIsNew.DAL.Cbn.Dto;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Promo.EverythingIsNew.DAL
+namespace Promo.EverythingIsNew.DAL.Cbn
 {
     public class CbnClient
     {

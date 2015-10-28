@@ -1,6 +1,7 @@
 ﻿using FullScale180.SemanticLogging;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging;
 using Promo.EverythingIsNew.DAL;
+using Promo.EverythingIsNew.DAL.Cbn;
 using Promo.EverythingIsNew.WebApp.Models;
 using System;
 using System.Collections.Generic;

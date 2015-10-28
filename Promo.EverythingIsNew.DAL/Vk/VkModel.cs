@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Promo.EverythingIsNew.DAL
+namespace Promo.EverythingIsNew.DAL.Vk
 {
     public class VkModel
     {
