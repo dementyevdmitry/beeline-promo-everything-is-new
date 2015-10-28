@@ -9,7 +9,7 @@
     <div class="content-wrap">
         <h2>Тариф &laquo;#Можно.ВСЁ&raquo;</h2>
 
-        <div class="benefits">
+        @*<div class="benefits">
             <div class="entry">
                 <div class="circle">
                     <strong>50</strong> мин
@@ -31,6 +31,7 @@
                 Ежедневно 100 SMS<br>по&nbsp;всей России бесплатно
             </div>
         </div><!--benefits-->
+        *@
 
         @foreach (var group in Model.Groups)
         {
@@ -48,7 +49,7 @@
                             {
                                 <div class="price">@line.Value</div>
                             }
-                            <div class="desc">@line.Title</div>
+                            <div class="desc">@Html.Raw(line.Title)</div>
                         </div>
                     }
                 </div>

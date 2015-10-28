@@ -63,16 +63,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return RedirectToAction("Offer");
         }
 
-        public ActionResult Offer()
-        {
-            var model = new OfferViewModel { 
-                UserName = "Александр",
-                TariffName = "#Всё.Супер!",
-            };
-            return View();
-        }
-
-
         private async Task<UpdateResult> CbnValidate(EntryForm userProfile)
         {
             var model = new Update {
@@ -184,7 +174,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
 
 
-        public async Task<ActionResult> GetTariffs()
+        public async Task<ActionResult> Offer()
         {
             Db = new DpcProxyDbContext(MvcApplication.dcpConnectionString); // unity per call
             //var targetTarif = Db.MobileTariffs.FirstOrDefault(t => t.SocName == "12_VSE4M" && t.Regions.Any(r => r.MarketCode == "MarketCode"));
@@ -192,12 +182,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             var webEntity = targetTarif.DpcProduct.ProductWebEntities.FirstOrDefault(x => x.WebEntity.SOC == MvcApplication.Soc);
 
             var groups = targetTarif.DpcProduct.Parameters
-                    .GroupBy(g => g.Group.Id, (id, lines) => new TariffGroupViewModel
-                    {
-                        Name = lines.FirstOrDefault().Group.Title,
-                        Lines = lines.Select(l => MapTariffValue(l)).OrderBy(s=>s.SortOrder).ToList(),
-                        SortOrder = lines.FirstOrDefault().Group.SortOrder
-                    }).OrderBy(s => s.SortOrder).ToList();
+                    .GroupBy(g => g.Group.Id, (id, lines) => MapTariffGroup(id, lines)).OrderBy(s => s.SortOrder).ToList();
 
             var model = new OfferViewModel
             {
@@ -212,16 +197,27 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
             string json2 = JsonConvert.SerializeObject(model);
 
-            return Content(json2);
+            return View("Offer", model);
         }
 
-        private static TariffLineViewModel MapTariffValue(AltLanDS.Beeline.DpcProxy.Client.Dpc.ProductParameter l)
+        private static TariffGroupViewModel MapTariffGroup(int id, IEnumerable<AltLanDS.Beeline.DpcProxy.Client.Dpc.ProductParameter> lines)
+        {
+            return new TariffGroupViewModel
+            {
+                Id = id,
+                Name = lines.FirstOrDefault().Group.Title,
+                SortOrder = lines.FirstOrDefault().Group.SortOrder,
+                Lines = lines.Select(l => MapTariffLine(l)).OrderBy(s => s.SortOrder).ToList()
+            };
+        }
+
+        private static TariffLineViewModel MapTariffLine(AltLanDS.Beeline.DpcProxy.Client.Dpc.ProductParameter l)
         {
             return new TariffLineViewModel
             {
                 Title = l.Title,
                 NumValue = l.NumValue.ToString(),
-                UnitDisplay = l.Unit.Display,
+                UnitDisplay = (l.Unit != null) ? l.Unit.Display : null,
                 Value =  l.Value,
                 SortOrder = l.SortOrder
             };

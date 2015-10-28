@@ -24,6 +24,7 @@ namespace Promo.EverythingIsNew.WebApp.Models
 
     public class TariffGroupViewModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public List<TariffLineViewModel> Lines { get; set; }
         public int? SortOrder { get; set; }
