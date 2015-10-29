@@ -35,7 +35,9 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public async Task<ActionResult> Index()
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
-            ViewBag.Cities = Helpers.GetMarketCodes().Values.ToList();
+            var cities = Helpers.GetMarketCodes().Values.ToList();
+            ViewBag.Cities = cities;
+            ViewBag.SelectedCity = cities.Where(x=>x == userProfile.SelectMyCity);
             return View(userProfile);
         }
 
