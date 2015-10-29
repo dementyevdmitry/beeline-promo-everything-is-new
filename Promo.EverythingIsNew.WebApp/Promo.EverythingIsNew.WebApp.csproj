@@ -227,10 +227,12 @@
     <Content Include="Global.asax" />
     <Content Include="i\block-nose.png" />
     <Content Include="i\checkbox.png" />
+    <Content Include="i\feature_error.png" />
     <Content Include="i\letter-top-bg.png" />
     <Content Include="i\letter-top-img.png" />
     <Content Include="i\logo.png" />
     <Content Include="i\p.gif" />
+    <Content Include="i\popup-close.png" />
     <Content Include="i\select-down.png" />
     <Content Include="i\success-check.png" />
     <Content Include="i\triangle.png" />
