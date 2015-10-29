@@ -46,7 +46,10 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             var result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
 
-            //Add ModelState validation messages
+            // Add ModelState validation messages
+            // return index page if ModelState is not valid
+
+            // check cbn status and redirect if account is already used
 
             Helpers.EncodeToCookies(userProfile, this.ControllerContext);
             return RedirectToAction("Offer");
