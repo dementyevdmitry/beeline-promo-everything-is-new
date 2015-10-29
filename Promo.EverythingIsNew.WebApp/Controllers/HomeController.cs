@@ -46,6 +46,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             var oldUserProfile = Helpers.DecodeFromCookies(this.ControllerContext);
             userProfile.Uid = oldUserProfile.Uid;
+            userProfile.MarketCode = Helpers.GetMarketCodeFromCity();
 
             // var result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
             // Add ModelState validation messages
@@ -61,6 +62,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
             OfferViewModel model = Helpers.GetOfferViewModel(userProfile.FirstName);
+            OfferViewModel model = Helpers.GetOfferViewModel(userProfile.FirstName, userProfile.MarketCode);
 
             return View(model);
         }
