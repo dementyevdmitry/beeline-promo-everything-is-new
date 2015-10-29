@@ -8,7 +8,7 @@
             <form>
                 <h4 class="thin">Укажите ваш действующий email<br>и мы отправим вам спецальный промо-код и инструкцию</h4>
                 <br>
-                <input type="text" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" /><a href="#" class="btn-link">Отправить</a>
+                <input type="text" name="resend-email" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" /><a href="#" class="btn-link">Отправить</a>
             </form>
         </div>
     </div>
@@ -16,7 +16,7 @@
 <!--/popup -->
 <div class="header">
     <div class="header-wrap">
-        <h1>Александр!</h1>
+        <h1>@Model.UserName!</h1>
         Предлагаем вам персональный тариф
     </div><!--header-wrap-->
 </div><!--header-->
@@ -82,7 +82,7 @@
                 <div class="circle-check">&nbsp;</div>
             </div>
             <div class="message">
-                Инструкции по переходу на&nbsp;тариф отправлены на&nbsp;ваш адрес<br><span class="message-email">coolmike@somwhere.com</span>
+                Инструкции по переходу на&nbsp;тариф отправлены на&nbsp;ваш адрес<br><span class="message-email"></span>
             </div>
 
             <a href="javascript:void(0)" class="wrong-email">Это не ваш почтовый адрес?</a>
@@ -90,7 +90,7 @@
 
         <div class="error-block" >
             <div style=" ">
-                <img src='~/i/feature_error.png'  alt="service error" style="position:relative;width:76px;height:76px;margin: 0px auto 22px;"/>
+                <img src='~/i/feature_error.png'  alt="service error" style="position:relative;width:76px;height:76px;margin: 0 auto 22px;"/>
             </div>
             <div class="message">
                 Произошла ошибка сервиса, попробуйте повторить операцию позднее
@@ -99,3 +99,50 @@
         </div>
     </div><!--content-wrap-->
 </div><!--content-->
+
+<script>
+    $(function () {
+        $(document).on("click", ".offer-choice .btn-link, .error-block .btn-link, popup-in  .btn-link", function (e) {
+            console.log("click");
+            $.ajax({
+                type: "POST",
+                data:{email: $('#resend-email').val()},
+                url: "/offer",
+                context: document.body,
+                dataType: 'text',
+                statusCode: {
+                    400: function () {
+                        show_error_block();
+                    }
+                },
+                success: function (msg) {
+                    $('.message-email').html(msg);
+                    show_success_block();
+                }
+            });
+        });
+
+        function show_success_block() {
+            var choice = $(".offer-choice");
+            var success = $(".success-block");
+
+            $(".error-block").hide();
+            choice.hide();
+            success.show();
+            setTimeout(function () {
+                success.addClass("show");
+            }, 100);
+        }
+
+        function show_error_block() {
+            var choice = $(".offer-choice");
+            var error = $(".error-block");
+
+            choice.hide();
+            error.show();
+            setTimeout(function () {
+                error.addClass("show");
+            }, 100);
+        }
+    });
+</script>

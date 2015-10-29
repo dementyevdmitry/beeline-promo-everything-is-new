@@ -100,7 +100,7 @@
     </div><!--content-wrap-->
 </div><!--content-->
 
-<script>    
+<script>
     $(function () {
         var dropdown = $(".text-select-list");
         var options = $('.option');
@@ -124,9 +124,8 @@
         });
 
         $(document).mouseup(function (e) {
-            if (!dropdown.is(e.target) 
-                && dropdown.has(e.target).length === 0) 
-            {
+            if (!dropdown.is(e.target)
+                && dropdown.has(e.target).length === 0) {
                 dropdown.hide();
             }
         });

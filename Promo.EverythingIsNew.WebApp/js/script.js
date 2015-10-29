@@ -26,17 +26,6 @@ $(function () {
         return false;
     });
 
-    $(document).on("click", ".offer-choice .btn-link", function (e) {
-        var $choice = $(this).closest(".offer-choice"),
-            $success = $(".success-block");
-
-        $choice.hide();
-        $success.show();
-        setTimeout(function () {
-            $success.addClass("show");
-        }, 100);
-    });
-
     $(document).on('click', ".success-block", function (e) {
         var T = $(this),
             $circle = T.find(".circle");
