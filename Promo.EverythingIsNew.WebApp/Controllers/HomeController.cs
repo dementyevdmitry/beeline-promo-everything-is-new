@@ -44,8 +44,10 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(EntryForm userProfile)
         {
-            var result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
+            var oldUserProfile = Helpers.DecodeFromCookies(this.ControllerContext);
+            userProfile.Uid = oldUserProfile.Uid;
 
+            // var result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
             // Add ModelState validation messages
             // return index page if ModelState is not valid
 
