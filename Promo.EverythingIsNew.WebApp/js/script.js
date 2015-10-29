@@ -52,7 +52,6 @@ $(function () {
 
         if ($obj.length != 1) return;
 
-
         $obj.show().siblings(".popup").hide();
         $obj.closest(".popup-cont").show();
 

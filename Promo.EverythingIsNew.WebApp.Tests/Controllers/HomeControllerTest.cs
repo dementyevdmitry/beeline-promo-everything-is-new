@@ -19,7 +19,7 @@ namespace Promo.EverythingIsNew.WebApp.Tests.Controllers
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Index().Result as ViewResult;
+            ViewResult result = controller.Index() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);

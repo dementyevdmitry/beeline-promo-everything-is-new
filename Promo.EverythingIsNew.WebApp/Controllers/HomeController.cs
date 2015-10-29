@@ -12,7 +12,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
     {
         public DpcProxyDbContext Db;
 
-        public async Task<ActionResult> Choose()
+        public ActionResult Choose()
         {
             ViewBag.PersonalBeelineUrl = MvcApplication.PersonalBeelineUrl;
             return View();
@@ -32,7 +32,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
             var cities = Helpers.GetMarketCodes().Values.ToList();
@@ -52,7 +52,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             // Add ModelState validation messages
             // return index page if ModelState is not valid
 
-            // check cbn status and redirect if account is already used
+            // post to cbn api status and redirect if account is already used or if 
 
             Helpers.EncodeToCookies(userProfile, this.ControllerContext);
             return RedirectToAction("Offer");
@@ -61,7 +61,6 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public async Task<ActionResult> Offer()
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
-            OfferViewModel model = Helpers.GetOfferViewModel(userProfile.FirstName);
             OfferViewModel model = Helpers.GetOfferViewModel(userProfile.FirstName, userProfile.MarketCode);
 
             return View(model);
