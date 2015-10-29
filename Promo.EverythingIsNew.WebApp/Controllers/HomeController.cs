@@ -37,7 +37,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
             var cities = Helpers.GetMarketCodes().Values.ToList();
             ViewBag.Cities = cities;
-            ViewBag.SelectedCity = cities.Where(x=>x == userProfile.SelectMyCity);
+            ViewBag.SelectedCity = cities.FirstOrDefault(x => x == userProfile.SelectMyCity);
             return View(userProfile);
         }
 
