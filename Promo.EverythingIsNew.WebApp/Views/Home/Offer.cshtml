@@ -1,4 +1,19 @@
 ﻿@model Promo.EverythingIsNew.WebApp.Models.OfferViewModel
+<!-- popup -->
+<div class="popup-cont">
+    <div class="popup-mask">&nbsp;</div>
+    <div class="popup wrong-email-popup">
+        <a href="javascript:void(0)" class="popup-close">&nbsp;</a>
+        <div class="popup-in">
+            <form>
+                <h4 class="thin">Укажите ваш действующий email<br>и мы отправим вам спецальный промо-код и инструкцию</h4>
+                <br>
+                <input type="text" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" /><a href="#" class="btn-link">Отправить</a>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/popup -->
 <div class="header">
     <div class="header-wrap">
         <h1>Александр!</h1>
@@ -10,27 +25,27 @@
         <h2>Тариф &laquo;#Можно.ВСЁ&raquo;</h2>
 
         @*<div class="benefits">
-            <div class="entry">
-                <div class="circle">
-                    <strong>50</strong> мин
+                <div class="entry">
+                    <div class="circle">
+                        <strong>50</strong> мин
+                    </div>
+                    Ежедневно 50&nbsp;минут<br>на&nbsp;все местные бесплатно
                 </div>
-                Ежедневно 50&nbsp;минут<br>на&nbsp;все местные бесплатно
-            </div>
 
-            <div class="entry">
-                <div class="circle">
-                    <strong>50</strong> МБ
+                <div class="entry">
+                    <div class="circle">
+                        <strong>50</strong> МБ
+                    </div>
+                    Ежедневно 50&nbsp;МБ<br>мобильного интернета бесплатно
                 </div>
-                Ежедневно 50&nbsp;МБ<br>мобильного интернета бесплатно
-            </div>
 
-            <div class="entry">
-                <div class="circle">
-                    <strong>100</strong> SMS
+                <div class="entry">
+                    <div class="circle">
+                        <strong>100</strong> SMS
+                    </div>
+                    Ежедневно 100 SMS<br>по&nbsp;всей России бесплатно
                 </div>
-                Ежедневно 100 SMS<br>по&nbsp;всей России бесплатно
-            </div>
-        </div><!--benefits-->
+            </div><!--benefits-->
         *@
 
         @foreach (var group in Model.Groups)
