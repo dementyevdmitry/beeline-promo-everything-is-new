@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
-using Promo.EverythingIsNew.DAL;
 using Promo.EverythingIsNew.DAL.Cbn.Dto;
 using Promo.EverythingIsNew.DAL.Dcp;
 using Promo.EverythingIsNew.DAL.Vk;
 using Promo.EverythingIsNew.Domain;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -37,16 +38,6 @@ namespace Promo.EverythingIsNew.WebApp.Models
                 Value = l.Value,
                 SortOrder = l.SortOrder
             };
-        }
-
-        public static List<string> GetTestCities()
-        {
-            List<string> items = new List<string>();
-            items.Add("Москва");
-            items.Add("Санкт-Петербург");
-            items.Add("Петропавловск-Камчатский");
-            items.Add("Воронеж");
-            return items;
         }
 
         public static EntryForm MapToEntryForm(VkModel userData)
@@ -130,6 +121,17 @@ namespace Promo.EverythingIsNew.WebApp.Models
                 Groups = groups
             };
             return model;
+        }
+
+        public static Dictionary<string, string> GetMarketCodes()
+        {
+            NameValueCollection section = (NameValueCollection)ConfigurationManager.GetSection("MarketCodes");
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            foreach (var k in section.AllKeys)
+            {
+                dictionary.Add(k, section[k]);
+            }
+            return dictionary;
         }
     }
 }

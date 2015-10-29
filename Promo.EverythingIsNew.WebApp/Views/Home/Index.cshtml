@@ -59,7 +59,7 @@
                     <label for="place_field">Город</label>
                     <div class="field">
                         <div class="text-select">
-                            <div class="inp option-selected">city</div>
+                            <div class="inp option-selected">@ViewBag.Cities[0]</div>
                             <input type="hidden" name="SelectMyCity" id="SelectMyCity" />
                             @*@Html.EditorFor(model => model.SelectMyCity, new { htmlAttributes = new { @class = "inp" } })*@
                             <div class="text-select-list" style="display:block">

@@ -2,6 +2,7 @@
 using Promo.EverythingIsNew.DAL.Vk;
 using Promo.EverythingIsNew.Domain;
 using Promo.EverythingIsNew.WebApp.Models;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -34,7 +35,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public async Task<ActionResult> Index()
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
-            ViewBag.Cities = Helpers.GetTestCities();
+            ViewBag.Cities = Helpers.GetMarketCodes().Values.ToList();
             return View(userProfile);
         }
 
