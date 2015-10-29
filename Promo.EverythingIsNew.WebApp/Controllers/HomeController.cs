@@ -67,9 +67,13 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
 
         [HttpPost]
         [ActionName("Offer")]
-        public async Task<ActionResult> OfferPost()
+        public async Task<ActionResult> OfferPost(string email)
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
+            if (!string.IsNullOrEmpty(email))
+            {
+                userProfile.Email = email;
+            }
             var result = await MvcApplication.CbnClient.PostMessage(Helpers.MapToMessage(userProfile));
             if (result.is_message_sent == true)
             {

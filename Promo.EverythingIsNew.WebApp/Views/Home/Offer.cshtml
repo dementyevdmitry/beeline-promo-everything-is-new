@@ -8,7 +8,8 @@
             <form>
                 <h4 class="thin">Укажите ваш действующий email<br>и мы отправим вам спецальный промо-код и инструкцию</h4>
                 <br>
-                <input type="text" name="resend-email" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" /><a href="#" class="btn-link">Отправить</a>
+                <input type="text" name="resend-email" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" />
+                <a href="javascript:void(0)" class="btn-link" >Отправить</a>
             </form>
         </div>
     </div>
@@ -102,7 +103,7 @@
 
 <script>
     $(function () {
-        $(document).on("click", ".offer-choice .btn-link, .error-block .btn-link, popup-in  .btn-link", function (e) {
+        $(document).on("click", ".offer-choice .btn-link, .error-block .btn-link", function (e) {
             console.log("click");
             $.ajax({
                 type: "POST",
@@ -112,14 +113,21 @@
                 dataType: 'text',
                 statusCode: {
                     400: function () {
+                        console.log("400");
                         show_error_block();
                     }
                 },
                 success: function (msg) {
                     $('.message-email').html(msg);
                     show_success_block();
+                    console.log("ok");
                 }
             });
+        });
+
+        $(document).on("click", "popup-in .btn-link", function (e) {
+            console.log("hide");
+            show_error_block();
         });
 
         function show_success_block() {
