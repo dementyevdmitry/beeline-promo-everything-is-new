@@ -57,6 +57,11 @@ namespace Promo.EverythingIsNew.WebApp.Models
             return model;
         }
 
+        internal static string GetMarketCodeFromCity()
+        {
+            return ""; // fetch from dictionary
+        }
+
         public static void EncodeToCookies(EntryForm userProfile, ControllerContext controllerContext)
         {
             var cookie = new HttpCookie("UserProfile");
@@ -106,9 +111,9 @@ namespace Promo.EverythingIsNew.WebApp.Models
             };
         }
 
-        public static OfferViewModel GetOfferViewModel(string userFirstName)
+        public static OfferViewModel GetOfferViewModel(string userFirstName, string marketCode)
         {
-            var targetTarif = DcpClient.GetTariff(MvcApplication.dcpConnectionString, MvcApplication.Soc);
+            var targetTarif = DcpClient.GetTariff(MvcApplication.dcpConnectionString, MvcApplication.Soc, marketCode);
 
             var groups = targetTarif.DpcProduct.Parameters
                     .GroupBy(g => g.Group.Id, (id, lines) => Helpers.MapTariffGroup(id, lines))

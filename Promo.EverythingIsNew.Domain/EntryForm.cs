@@ -15,6 +15,7 @@ namespace Promo.EverythingIsNew.Domain
         public bool IsMailingAgree { get; set; }  // Согласие на получение рассылки
         public string Academy { get; set; }  // Вуз
         public string Uid { get; set; }
+        public string MarketCode { get; set; }
     }
 
     /*
