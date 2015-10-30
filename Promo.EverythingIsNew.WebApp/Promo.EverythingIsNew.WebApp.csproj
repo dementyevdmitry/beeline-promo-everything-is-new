@@ -222,7 +222,6 @@
     <Content Include="css\fonts.css" />
     <Content Include="css\style.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\officinaserifc-bold-webfont.svg" />
     <Content Include="fonts\officinaserifc-book-webfont.svg" />
     <Content Include="Global.asax" />
@@ -240,12 +239,6 @@
     <Content Include="i\vk-icon.png" />
     <Content Include="js\jquery-1.10.2.min.js" />
     <Content Include="js\script.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="PrivateSettings.config" />
     <Content Include="fonts\officinaserifc-bold-webfont.eot" />
     <Content Include="fonts\officinaserifc-bold-webfont.ttf" />
