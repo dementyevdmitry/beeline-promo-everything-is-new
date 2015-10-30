@@ -8,7 +8,7 @@
             <form>
                 <h4 class="thin">Укажите ваш действующий email<br>и мы отправим вам спецальный промо-код и инструкцию</h4>
                 <br>
-                <input type="text" name="resend-email" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" />
+                <input type="text" id ="resend-email" name="resend-email" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" />
                 <a href="javascript:void(0)" class="btn-link" >Отправить</a>
             </form>
         </div>
@@ -103,8 +103,15 @@
 
 <script>
     $(function () {
-        $(document).on("click", ".offer-choice .btn-link, .error-block .btn-link", function (e) {
-            console.log("click");
+        var choice = $(".offer-choice");
+        var success = $(".success-block");
+        var error = $(".error-block");
+        var popup = $(".popup-cont");
+
+
+        $(document).on("click", ".offer-choice .btn-link, .error-block .btn-link, .popup-in .btn-link", function (e) {
+            hide_popup();
+            //console.log("click");
             $.ajax({
                 type: "POST",
                 data:{email: $('#resend-email').val()},
@@ -113,28 +120,20 @@
                 dataType: 'text',
                 statusCode: {
                     400: function () {
-                        console.log("400");
+                        //console.log("400");
                         show_error_block();
                     }
                 },
                 success: function (msg) {
                     $('.message-email').html(msg);
                     show_success_block();
-                    console.log("ok");
+                    //console.log("ok");
                 }
             });
         });
-
-        $(document).on("click", "popup-in .btn-link", function (e) {
-            console.log("hide");
-            show_error_block();
-        });
-
+        
         function show_success_block() {
-            var choice = $(".offer-choice");
-            var success = $(".success-block");
-
-            $(".error-block").hide();
+            error.hide();
             choice.hide();
             success.show();
             setTimeout(function () {
@@ -143,14 +142,16 @@
         }
 
         function show_error_block() {
-            var choice = $(".offer-choice");
-            var error = $(".error-block");
-
+            success.hide();
             choice.hide();
             error.show();
             setTimeout(function () {
                 error.addClass("show");
             }, 100);
+        }
+
+        function hide_popup() {
+            popup.hide();   
         }
     });
 </script>
