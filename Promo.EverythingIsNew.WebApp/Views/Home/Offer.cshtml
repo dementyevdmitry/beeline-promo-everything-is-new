@@ -5,11 +5,12 @@
     <div class="popup wrong-email-popup">
         <a href="javascript:void(0)" class="popup-close">&nbsp;</a>
         <div class="popup-in">
-            <form>
+            <form id="form-resend">
                 <h4 class="thin">Укажите ваш действующий email<br>и мы отправим вам спецальный промо-код и инструкцию</h4>
                 <br>
-                <input type="text" id ="resend-email" name="resend-email" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" />
+                <input type="text" id ="resend_email" name="resend_email" class="inp" style="vertical-align:middle;width:300px;margin-right:22px" />
                 <a href="javascript:void(0)" class="btn-link" >Отправить</a>
+                <button class="btn-link">Отправить</button>
             </form>
         </div>
     </div>
@@ -114,7 +115,7 @@
             //console.log("click");
             $.ajax({
                 type: "POST",
-                data:{email: $('#resend-email').val()},
+                data:{email: $('#resend_email').val()},
                 url: "/offer",
                 context: document.body,
                 dataType: 'text',
@@ -153,5 +154,21 @@
         function hide_popup() {
             popup.hide();   
         }
+
+        $("#form-resend").validate({
+
+            rules: {
+
+                resend_email: {
+                    email: true
+                }
+
+            },
+            messages: {
+                resend_email: {
+                    email: "",
+                }
+            }
+        });
     });
 </script>

@@ -88,18 +88,5 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
                 return new HttpStatusCodeResult(400);
             }
         }
-
-        public ActionResult Test()
-        {
-            var model = (TariffsConfiguration)ConfigurationManager.GetSection("tariffsConfiguration");
-            var codes = model.Codes;
-            foreach (var code in codes)
-            {
-
-            }
-
-
-            return Content(JsonConvert.SerializeObject(model));
-        }
     }
 }
