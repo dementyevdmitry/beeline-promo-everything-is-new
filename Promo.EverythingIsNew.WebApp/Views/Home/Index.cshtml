@@ -60,7 +60,7 @@
                     <div class="field">
                         <div class="text-select">
                             <div class="inp option-selected">@ViewBag.SelectedCity</div>
-                            <input type="hidden" name="SelectMyCity" id="SelectMyCity" />
+                            <input type="hidden" name="SelectMyCity" id="SelectMyCity" value="@ViewBag.SelectedCity"/>
                             @*@Html.EditorFor(model => model.SelectMyCity, new { htmlAttributes = new { @class = "inp" } })*@
                             <div class="text-select-list" style="display:block">
                                 @foreach (string city in ViewBag.Cities)
