@@ -1,7 +1,9 @@
 ﻿using AltLanDS.Beeline.DpcProxy.Client;
+using Newtonsoft.Json;
 using Promo.EverythingIsNew.DAL.Vk;
 using Promo.EverythingIsNew.Domain;
 using Promo.EverythingIsNew.WebApp.Models;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -35,7 +37,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public ActionResult Index()
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
-            var cities = Helpers.GetMarketCodes().Values.ToList();
+            var cities = Helpers.GetCities();
             ViewBag.Cities = cities;
             ViewBag.SelectedCity = cities.FirstOrDefault(x => x == userProfile.SelectMyCity);
             return View(userProfile);
@@ -46,7 +48,8 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         {
             var oldUserProfile = Helpers.DecodeFromCookies(this.ControllerContext);
             userProfile.Uid = oldUserProfile.Uid;
-            userProfile.MarketCode = Helpers.GetMarketCodeFromCity();
+            userProfile.MarketCode = Helpers.GetMarketCodeFromCity(userProfile.SelectMyCity);
+            userProfile.Soc = Helpers.GetSocFromCity(userProfile.SelectMyCity);
 
             // var result = await MvcApplication.CbnClient.Update(Helpers.MapToUpdate(userProfile));
             // Add ModelState validation messages
@@ -61,7 +64,7 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
         public async Task<ActionResult> Offer()
         {
             var userProfile = Helpers.DecodeFromCookies(this.ControllerContext);
-            OfferViewModel model = Helpers.GetOfferViewModel(userProfile.FirstName, userProfile.MarketCode);
+            OfferViewModel model = Helpers.GetOfferViewModel(userProfile);
 
             return View(model);
         }
@@ -84,6 +87,19 @@ namespace Promo.EverythingIsNew.WebApp.Controllers
             {
                 return new HttpStatusCodeResult(400);
             }
+        }
+
+        public ActionResult Test()
+        {
+            var model = (TariffsConfiguration)ConfigurationManager.GetSection("tariffsConfiguration");
+            var codes = model.Codes;
+            foreach (var code in codes)
+            {
+
+            }
+
+
+            return Content(JsonConvert.SerializeObject(model));
         }
     }
 }

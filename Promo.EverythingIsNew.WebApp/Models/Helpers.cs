@@ -57,11 +57,6 @@ namespace Promo.EverythingIsNew.WebApp.Models
             return model;
         }
 
-        internal static string GetMarketCodeFromCity()
-        {
-            return ""; // fetch from dictionary
-        }
-
         public static void EncodeToCookies(EntryForm userProfile, ControllerContext controllerContext)
         {
             var cookie = new HttpCookie("UserProfile");
@@ -111,9 +106,9 @@ namespace Promo.EverythingIsNew.WebApp.Models
             };
         }
 
-        public static OfferViewModel GetOfferViewModel(string userFirstName, string marketCode)
+        public static OfferViewModel GetOfferViewModel(EntryForm userProfile)
         {
-            var targetTarif = DcpClient.GetTariff(MvcApplication.dcpConnectionString, MvcApplication.Soc, marketCode);
+            var targetTarif = DcpClient.GetTariff(MvcApplication.dcpConnectionString, userProfile.Soc, userProfile.MarketCode);
 
             var groups = targetTarif.DpcProduct.Parameters
                     .GroupBy(g => g.Group.Id, (id, lines) => Helpers.MapTariffGroup(id, lines))
@@ -121,22 +116,37 @@ namespace Promo.EverythingIsNew.WebApp.Models
 
             var model = new OfferViewModel
             {
-                UserName = userFirstName,
+                UserName = userProfile.FirstName,
                 TariffName = targetTarif.DpcProduct.MarketingProduct.Title,
                 Groups = groups
             };
             return model;
         }
 
-        public static Dictionary<string, string> GetMarketCodes()
+        public static List<string> GetCities()
         {
-            NameValueCollection section = (NameValueCollection)ConfigurationManager.GetSection("MarketCodes");
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            foreach (var k in section.AllKeys)
+            var cities = new List<string>();
+            foreach (var item in MvcApplication.TariffIndexes)
             {
-                dictionary.Add(k, section[k]);
+                cities.Add(item.City);
             }
-            return dictionary;
+            return cities;
+        }
+
+        internal static string GetMarketCodeFromCity(string city)
+        {
+            var items = from TariffIndexElement s in MvcApplication.TariffIndexes
+                             where s.City == city
+                             select s.MarketCode;
+            return items.FirstOrDefault();
+        }
+
+        internal static string GetSocFromCity(string city)
+        {
+            var items = from TariffIndexElement s in MvcApplication.TariffIndexes
+                        where s.City == city
+                        select s.Soc;
+            return items.FirstOrDefault();
         }
     }
 }

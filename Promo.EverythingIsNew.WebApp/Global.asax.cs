@@ -34,6 +34,9 @@ namespace Promo.EverythingIsNew.WebApp
         public static string _siteUrlFormat = ConfigurationManager.AppSettings["altlands:dpc:site-url"];
         public static string dcpConnectionString = ConfigurationManager.AppSettings["DcpConnectionString"];
 
+        public static TariffIndexesCollection TariffIndexes =
+            ((TariffsConfiguration)ConfigurationManager.GetSection("tariffsConfiguration")).Codes;
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -41,7 +44,15 @@ namespace Promo.EverythingIsNew.WebApp
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            LogtestEvents();
 
+#if DEBUG
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
+        }
+
+        private static void LogtestEvents()
+        {
             var listener = new ObservableEventListener();
             listener.EnableEvents(TestEvents.Log, EventLevel.LogAlways, Keywords.All);
 
@@ -51,10 +62,6 @@ namespace Promo.EverythingIsNew.WebApp
             TestEvents.Log.Critical("Hello world In-Process Critical");
             TestEvents.Log.Error("Hello world In-Process Error");
             TestEvents.Log.Informational("Hello world In-Process Informational");
-
-#if DEBUG
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-#endif
         }
     }
 }
