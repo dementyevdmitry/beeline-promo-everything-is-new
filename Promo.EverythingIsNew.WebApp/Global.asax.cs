@@ -1,4 +1,5 @@
-﻿using FullScale180.SemanticLogging;
+﻿using AltLanDS.Logging;
+using FullScale180.SemanticLogging;
 using Microsoft.Practices.EnterpriseLibrary.SemanticLogging;
 using Promo.EverythingIsNew.DAL;
 using Promo.EverythingIsNew.DAL.Cbn;
@@ -49,6 +50,19 @@ namespace Promo.EverythingIsNew.WebApp
 #if DEBUG
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 #endif
+
+            //var observable = new ObservableEventListener();
+            //observable.EnableEvents(SelfCareWidgetEvents.LogEventSource, EventLevel.Verbose, (EventKeywords)(-1));
+            //observable.LogToCategory("fttbSelfCare");
+
+            //var observable2 = new ObservableEventListener();
+            //observable2.EnableEvents(UssEvents.LogEventSource, EventLevel.Verbose, (EventKeywords)(-1));
+            //observable2.LogToCategory("uss");
+
+            //var observable3 = new ObservableEventListener();
+            //observable3.EnableEvents(UssEvents.LogEventSource, EventLevel.Error, (EventKeywords)(-1));
+            //observable3.LogToCategory("errors");
+
         }
 
         private static void LogtestEvents()
