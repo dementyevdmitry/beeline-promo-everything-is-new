@@ -25,11 +25,11 @@ namespace Promo.EverythingIsNew.WebApp
         public static string RedirectUri = Hostname + (Hostname.Substring(Hostname.Length - 1, 1) == "/" ? "VkResult" : "/VkResult");
         public static string PersonalBeelineUrl = ConfigurationManager.AppSettings["PersonalBeelineUrl"];
 
-        public static string UsssUrl = ConfigurationManager.AppSettings["UsssUrl"];
-        public static string UsssUser = ConfigurationManager.AppSettings["UsssUser"];
-        public static string UsssPassword = ConfigurationManager.AppSettings["UsssPassword"];
+        public static string CbnUrl = ConfigurationManager.AppSettings["CbnUrl"];
+        public static string CbnUser = ConfigurationManager.AppSettings["CbnUser"];
+        public static string CbnPassword = ConfigurationManager.AppSettings["CbnPassword"];
 
-        public static CbnClient CbnClient = new CbnClient(UsssUrl, UsssUser, UsssPassword);
+        public static CbnClient CbnClient = new CbnClient(CbnUrl, CbnUser, CbnPassword);
 
         public static string Soc = ConfigurationManager.AppSettings["Soc"];
         public static string _siteUrlFormat = ConfigurationManager.AppSettings["altlands:dpc:site-url"];
